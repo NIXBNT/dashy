@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Peptide Dashboard · Predicted vs Actual</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root { --bg:#0b1020; --panel:#121933; --text:#e8ecf8; --muted:#98a2c3; --border:#243055; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,system-ui,sans-serif; background:linear-gradient(180deg,#0b1020,#0f1731); color:var(--text); }
+    .wrap{max-width:1400px;margin:0 auto;padding:24px;} .nav{position:sticky;top:0;z-index:10;background:rgba(11,16,32,.88);border-bottom:1px solid var(--border);margin:-24px -24px 20px;padding:14px 24px;} .nav a{display:inline-block;margin-right:12px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;text-decoration:none;color:var(--text);} .panel{background:rgba(18,25,51,.88);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;} .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;} .span-6{grid-column:span 6;} p{color:var(--muted)} @media(max-width:900px){.span-6{grid-column:span 12;}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" id="nav"></nav>
+  <div class="panel">
+    <h1>Predicted vs Actual</h1>
+    <p>Holdout-set predicted-vs-actual scatter plots for the current best v3 model per target. Each chart includes an x=y reference line so divergence is visually obvious.</p>
+  </div>
+  <div class="grid" id="charts"></div>
+</div>
+<script>
+const fmt=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
+fetch('./data.json').then(r=>r.json()).then(data=>{
+  const sections=data.dashboardMeta?.sections||[];
+  document.getElementById('nav').innerHTML=sections.map(s=>`<a href="./${s.page||'index.html'}">${s.label}</a>`).join('');
+  const wrap=document.getElementById('charts');
+  (data.predictionPlots?.charts||[]).forEach((chart, idx)=>{
+    const panel=document.createElement('div');
+    panel.className='panel span-6';
+    const id=`plot_${idx}`;
+    panel.innerHTML=`<h2>${chart.target}</h2><p>${chart.feature_set} + ${chart.model}</p><div id="${id}" style="height:420px"></div>`;
+    wrap.appendChild(panel);
+    const xs=chart.points.map(p=>p.actual);
+    const ys=chart.points.map(p=>p.predicted);
+    const min=Math.min(...xs,...ys);
+    const max=Math.max(...xs,...ys);
+    Plotly.newPlot(id,[
+      {x:xs,y:ys,text:chart.points.map(p=>p.Sequence),mode:'markers',type:'scatter',marker:{size:6,color:'#6ee7ff',opacity:0.65},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
+      {x:[min,max],y:[min,max],mode:'lines',type:'scatter',line:{color:'#ff7b7b',dash:'dash',width:2},hoverinfo:'skip'}
+    ],{
+      paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},
+      xaxis:{title:'Actual',gridcolor:'#243055'}, yaxis:{title:'Predicted',gridcolor:'#243055'}, margin:{t:20,l:55,r:10,b:55}
+    },{displayModeBar:false,responsive:true});
+  });
+});
+</script>
+</body>
+</html>
