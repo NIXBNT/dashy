@@ -78,7 +78,7 @@
     fetch('./data.json').then(r => r.json()).then(data => {
       const meta = data.dashboardMeta || {};
       document.getElementById('updatePolicy').textContent = meta.updatePolicy || '';
-      document.getElementById('topnav').innerHTML = (meta.sections || []).map(s => `<a href="#${s.id}">${s.label}</a>`).join('');
+      document.getElementById('topnav').innerHTML = (meta.sections || []).map(s => `<a href="${s.page || 'index.html'}${(s.page || 'index.html') === 'index.html' && s.id !== 'overview' && s.id !== 'data' ? '#' + s.id : ''}">${s.label}</a>`).join('');
       document.getElementById('generatedFrom').textContent = `generated from ${data.generatedFrom}`;
       const s = data.summary;
       const cards = [

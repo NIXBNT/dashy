@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Peptide Dashboard · Current Analysis</title>
+  <style>
+    :root { --bg:#0b1020; --panel:#121933; --text:#e8ecf8; --muted:#98a2c3; --accent:#6ee7ff; --border:#243055; }
+    * { box-sizing:border-box; } body { margin:0; font-family:Inter,system-ui,sans-serif; background:linear-gradient(180deg,#0b1020,#0f1731); color:var(--text); }
+    .wrap{max-width:1400px;margin:0 auto;padding:24px;} .panel{background:rgba(18,25,51,.88);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;} .nav{position:sticky;top:0;z-index:10;background:rgba(11,16,32,.88);border-bottom:1px solid var(--border);margin:-24px -24px 20px;padding:14px 24px;} .nav a{display:inline-block;margin-right:12px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;text-decoration:none;color:var(--text);} .table-wrap{max-height:700px;overflow:auto;} table{width:100%;border-collapse:collapse;} th,td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;} th{position:sticky;top:0;background:var(--panel);} p,li{color:var(--muted)} code{color:#fff;} h1,h2,h3{margin-top:0}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" id="nav"></nav>
+  <div class="panel">
+    <h1 id="title"></h1>
+    <p id="summary"></p>
+  </div>
+  <div class="panel">
+    <h2>Descriptor sets used</h2>
+    <ul id="descriptorList"></ul>
+  </div>
+  <div class="panel">
+    <h2>Per-target analysis details</h2>
+    <div class="table-wrap"><table id="analysisTable"></table></div>
+  </div>
+</div>
+<script>
+const fmt=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
+fetch('./data.json').then(r=>r.json()).then(data=>{
+  const sections=data.dashboardMeta?.sections||[];
+  document.getElementById('nav').innerHTML=sections.map(s=>`<a href="./${s.page||'index.html'}">${s.label}</a>`).join('');
+  const a=data.currentAnalysis;
+  document.getElementById('title').textContent=a.title;
+  document.getElementById('summary').textContent=a.summary;
+  document.getElementById('descriptorList').innerHTML=Object.entries(a.descriptorSets).map(([k,v])=>`<li><code>${k}</code> — ${v}</li>`).join('');
+  document.getElementById('analysisTable').innerHTML=`<thead><tr><th>target</th><th>best setup</th><th>metrics</th><th>leaderboard</th><th>example predictions</th></tr></thead><tbody>${a.results.map(r=>`<tr><td>${r.target}</td><td>${r.best_feature_set} + ${r.best_model}</td><td>R² ${fmt(r.r2)}<br>MAE ${fmt(r.mae)}<br>RMSE ${fmt(r.rmse)}<br>Δ vs v1 ${fmt(r.delta_vs_v1)}</td><td>${r.leaderboard.map(x=>`${x.feature_set} + ${x.model}: R² ${fmt(x.r2)}`).join('<br>')}</td><td>${r.examples.map(ex=>`${ex.Sequence}<br>${ex.feature_set} + ${ex.model}<br>actual ${fmt(ex.actual)} · pred ${fmt(ex.predicted)}`).join('<hr style="border-color:#243055">')}</td></tr>`).join('')}</tbody>`;
+});
+</script>
+</body>
+</html>

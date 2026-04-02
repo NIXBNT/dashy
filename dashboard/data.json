@@ -4407,21 +4407,892 @@
     "sections": [
       {
         "id": "overview",
-        "label": "Overview"
-      },
-      {
-        "id": "data",
-        "label": "Master Data"
+        "label": "Overview",
+        "page": "index.html"
       },
       {
         "id": "models",
-        "label": "Predictive Models"
+        "label": "Models",
+        "page": "models.html"
+      },
+      {
+        "id": "analysis",
+        "label": "Current Analysis",
+        "page": "analysis.html"
       },
       {
         "id": "leaders",
-        "label": "Top Peptides"
+        "label": "Top Peptides",
+        "page": "index.html#leaders"
       }
     ],
     "updatePolicy": "Every completed analysis is pushed and reflected in the public dashboard."
+  },
+  "currentAnalysis": {
+    "title": "Descriptor expansion and per-target model comparison",
+    "summary": "Compared sequence hash, physchem descriptors, composition+dipeptide descriptors, and hybrid features across separate target-specific models.",
+    "results": [
+      {
+        "target": "AVG",
+        "best_feature_set": "hybrid",
+        "best_model": "ridge",
+        "r2": 0.7892460036432635,
+        "mae": 0.094293452228723,
+        "rmse": 0.11715437550845909,
+        "delta_vs_v1": -0.01158726738458593,
+        "leaderboard": [
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.7892460036432635,
+            "mae": 0.094293452228723,
+            "rmse": 0.11715437550845909
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.7707748997375058,
+            "mae": 0.09419051632217847,
+            "rmse": 0.1221804414006154
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.7704721281737058,
+            "mae": 0.09844569137046352,
+            "rmse": 0.12226110568186274
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.7683650031937076,
+            "mae": 0.0985084290924131,
+            "rmse": 0.12282101780298303
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.6810388009263522,
+            "mae": 0.11013815609962818,
+            "rmse": 0.14412507016888343
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.6674361219123628,
+            "mae": 0.11755172556640066,
+            "rmse": 0.147166222367753
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "HHLWTRDWMRQQKST",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.050375,
+            "predicted": 0.0504407211911035,
+            "abs_error": 6.572119110351271e-05
+          },
+          {
+            "Sequence": "TGRNTHTKTYHEHKY",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.2243,
+            "predicted": 0.2241930863384414,
+            "abs_error": 0.0001069136615585
+          },
+          {
+            "Sequence": "GEEFALVKGVFSIVK",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.40665,
+            "predicted": 0.406501039167995,
+            "abs_error": 0.0001489608320049
+          },
+          {
+            "Sequence": "ACPFPFDIQAAQICI",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.3153125,
+            "predicted": 0.3155070277292975,
+            "abs_error": 0.0001945277292975
+          },
+          {
+            "Sequence": "IYWFWEMIWFGGLMT",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.2087875,
+            "predicted": 0.2090661936653527,
+            "abs_error": 0.0002786936653527
+          }
+        ]
+      },
+      {
+        "target": "RF",
+        "best_feature_set": "hybrid",
+        "best_model": "ridge",
+        "r2": 0.7484537200446281,
+        "mae": 0.09395338785738552,
+        "rmse": 0.11866777438314584,
+        "delta_vs_v1": -0.03932042547632231,
+        "leaderboard": [
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.7484537200446281,
+            "mae": 0.09395338785738552,
+            "rmse": 0.11866777438314584
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.7416166484275484,
+            "mae": 0.09266094160104986,
+            "rmse": 0.12026966779126924
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.7293107697811727,
+            "mae": 0.09805126380506726,
+            "rmse": 0.12310036375101513
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.7211451213462579,
+            "mae": 0.0987924995484406,
+            "rmse": 0.12494329967733134
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.6667451210555391,
+            "mae": 0.10404442667322834,
+            "rmse": 0.13658786161403366
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.5865984681537052,
+            "mae": 0.11872024967335307,
+            "rmse": 0.15212825668342525
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "GTKATYLVTRPIYKQ",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.3605,
+            "predicted": 0.3604621116057139,
+            "abs_error": 3.788839428603419e-05
+          },
+          {
+            "Sequence": "QAFKMIQMKHRKHFV",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.3685,
+            "predicted": 0.3685805057554214,
+            "abs_error": 8.05057554214006e-05
+          },
+          {
+            "Sequence": "LNINKVGKTKALGVV",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.6055,
+            "predicted": 0.6056507746000913,
+            "abs_error": 0.0001507746000912
+          },
+          {
+            "Sequence": "KALFMPFVAKPYKKI",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.5835,
+            "predicted": 0.5833056858293713,
+            "abs_error": 0.0001943141706287
+          },
+          {
+            "Sequence": "LLVFLNFNKTLNIFV",
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "actual": 0.468,
+            "predicted": 0.4677921664323871,
+            "abs_error": 0.0002078335676129
+          }
+        ]
+      },
+      {
+        "target": "iAMP",
+        "best_feature_set": "composition_dipeptide",
+        "best_model": "extra_trees",
+        "r2": 0.745314436880646,
+        "mae": 0.10717319553805772,
+        "rmse": 0.13770540662610908,
+        "delta_vs_v1": -0.027524837724895224,
+        "leaderboard": [
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.745314436880646,
+            "mae": 0.10717319553805772,
+            "rmse": 0.13770540662610908
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.6889715582914606,
+            "mae": 0.12110048057272733,
+            "rmse": 0.1521769517132408
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.6677684977044682,
+            "mae": 0.12556213755288329,
+            "rmse": 0.1572784545944072
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.6566145722847911,
+            "mae": 0.12692129342881955,
+            "rmse": 0.15989679496765202
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.550460481856462,
+            "mae": 0.1418600557742782,
+            "rmse": 0.18295014836900245
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.5152196283378985,
+            "mae": 0.15322522702279634,
+            "rmse": 0.18998588743649472
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "MAMLKLFWIEKFLFL",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.66,
+            "predicted": 0.6600333333333338,
+            "abs_error": 3.333333333377375e-05
+          },
+          {
+            "Sequence": "PNKKQKWHKGFEKEQ",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.5660000000000001,
+            "predicted": 0.5659416666666667,
+            "abs_error": 5.833333333338242e-05
+          },
+          {
+            "Sequence": "WVIWNFWWMMKQYIQ",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.69,
+            "predicted": 0.6899166666666666,
+            "abs_error": 8.333333333332416e-05
+          },
+          {
+            "Sequence": "GTWMQTEYEWWYEAE",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.62,
+            "predicted": 0.6197916666666666,
+            "abs_error": 0.0002083333333333
+          },
+          {
+            "Sequence": "NMMHNRRNGRRKMGR",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.63,
+            "predicted": 0.6302749999999996,
+            "abs_error": 0.0002749999999995
+          }
+        ]
+      },
+      {
+        "target": "DA",
+        "best_feature_set": "composition_dipeptide",
+        "best_model": "extra_trees",
+        "r2": 0.6949469309885496,
+        "mae": 0.14464661526684164,
+        "rmse": 0.19649994142141586,
+        "delta_vs_v1": -0.00692957697781682,
+        "leaderboard": [
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.6949469309885496,
+            "mae": 0.14464661526684164,
+            "rmse": 0.19649994142141586
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.6778530653271072,
+            "mae": 0.1627198698746295,
+            "rmse": 0.20193041023225158
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.6383240279745224,
+            "mae": 0.17381913638491867,
+            "rmse": 0.21396096826964878
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.6241144521797002,
+            "mae": 0.17775284993817697,
+            "rmse": 0.21812354131712114
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.5955920574674605,
+            "mae": 0.16733822998687664,
+            "rmse": 0.22624790383172222
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.5617486706129551,
+            "mae": 0.1912542711167534,
+            "rmse": 0.23552463911643573
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "SLEQYTGGINKKLPG",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.125,
+            "predicted": 0.1252083333333333,
+            "abs_error": 0.0002083333333333
+          },
+          {
+            "Sequence": "SFEYFYATMSSGQGA",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.0069999999999999,
+            "predicted": 0.0067833333333333,
+            "abs_error": 0.0002166666666666
+          },
+          {
+            "Sequence": "KWAKKMFASKGKFGR",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.8370000000000001,
+            "predicted": 0.837258333333333,
+            "abs_error": 0.0002583333333329
+          },
+          {
+            "Sequence": "ARDVFGRRQVQQQFF",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.171,
+            "predicted": 0.1714749999999998,
+            "abs_error": 0.0004749999999998
+          },
+          {
+            "Sequence": "IRRRGDHMAIGAHFH",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.09,
+            "predicted": 0.0894083333333333,
+            "abs_error": 0.0005916666666666
+          }
+        ]
+      },
+      {
+        "target": "AMPScan",
+        "best_feature_set": "composition_dipeptide",
+        "best_model": "ridge",
+        "r2": 0.6147816844701812,
+        "mae": 0.2106550466681706,
+        "rmse": 0.2562040569190976,
+        "delta_vs_v1": -0.0024575103368518203,
+        "leaderboard": [
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.6147816844701812,
+            "mae": 0.2106550466681706,
+            "rmse": 0.2562040569190976
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.61081507294845,
+            "mae": 0.18393313265529312,
+            "rmse": 0.25751975139903505
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.6034278219724282,
+            "mae": 0.2125403616613754,
+            "rmse": 0.259952297248603
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.5907972648113651,
+            "mae": 0.2183289743615769,
+            "rmse": 0.2640595035547346
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.5552077256218639,
+            "mae": 0.19707859416010498,
+            "rmse": 0.27530313450780597
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.550518017891635,
+            "mae": 0.23018972848081484,
+            "rmse": 0.2767506707526363
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "PPEGKFKGMKFAPFI",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.5841,
+            "predicted": 0.5843734241873674,
+            "abs_error": 0.0002734241873674
+          },
+          {
+            "Sequence": "ARMIMEARRRFDFQF",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0038,
+            "predicted": 0.0033798618748486,
+            "abs_error": 0.0004201381251513
+          },
+          {
+            "Sequence": "KIWGFEGIQGLKKWL",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.5467,
+            "predicted": 0.5472659603223331,
+            "abs_error": 0.0005659603223331
+          },
+          {
+            "Sequence": "EWSAMYGWGQMETYT",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0077,
+            "predicted": 0.0071108262280284,
+            "abs_error": 0.0005891737719715
+          },
+          {
+            "Sequence": "GYWVDEMTNEKFKHS",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0546,
+            "predicted": 0.0538108207506966,
+            "abs_error": 0.0007891792493034
+          }
+        ]
+      },
+      {
+        "target": "SVM",
+        "best_feature_set": "composition_dipeptide",
+        "best_model": "extra_trees",
+        "r2": 0.5840713264531028,
+        "mae": 0.168337688648294,
+        "rmse": 0.22047953159679337,
+        "delta_vs_v1": 0.02429125528543996,
+        "leaderboard": [
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.5840713264531028,
+            "mae": 0.168337688648294,
+            "rmse": 0.22047953159679337
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.5347273748357669,
+            "mae": 0.18418436635156993,
+            "rmse": 0.23319143640890977
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.5294840416654424,
+            "mae": 0.18472541628273823,
+            "rmse": 0.23450171648330528
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.48351069169392313,
+            "mae": 0.1959906452889434,
+            "rmse": 0.2456911510253659
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.46415696074849944,
+            "mae": 0.19522431102362203,
+            "rmse": 0.25025204999913814
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.4181017230576636,
+            "mae": 0.2140721323839934,
+            "rmse": 0.2607848648367426
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "DYWGILGIAKIIFNP",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.256,
+            "predicted": 0.255975,
+            "abs_error": 2.4999999999941732e-05
+          },
+          {
+            "Sequence": "FHRNQQTKSIWRAYL",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.242,
+            "predicted": 0.2418916666666665,
+            "abs_error": 0.0001083333333334
+          },
+          {
+            "Sequence": "YIGYYGAIKWAAGMT",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.231999999999999,
+            "predicted": 0.2318833333333331,
+            "abs_error": 0.0001166666666658
+          },
+          {
+            "Sequence": "NNHGRGHTYHRAYNK",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.249,
+            "predicted": 0.2491249999999999,
+            "abs_error": 0.0001249999999999
+          },
+          {
+            "Sequence": "FQKWKQGRGTFKTAM",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": 0.799,
+            "predicted": 0.7987749999999995,
+            "abs_error": 0.0002250000000005
+          }
+        ]
+      },
+      {
+        "target": "ANN",
+        "best_feature_set": "composition_dipeptide",
+        "best_model": "ridge",
+        "r2": 0.5786655923257559,
+        "mae": 0.2668688190972849,
+        "rmse": 0.32039913894094096,
+        "delta_vs_v1": 0.0004560497623139481,
+        "leaderboard": [
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.5786655923257559,
+            "mae": 0.2668688190972849,
+            "rmse": 0.32039913894094096
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.5764430797600382,
+            "mae": 0.2293935914260717,
+            "rmse": 0.32124307016161324
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.5632099642018993,
+            "mae": 0.2693143439265469,
+            "rmse": 0.326222745343151
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.5501364120091421,
+            "mae": 0.2736575849981569,
+            "rmse": 0.33106883328400527
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.44311844337935014,
+            "mae": 0.31258950862235024,
+            "rmse": 0.36834882965033644
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.40754107932738004,
+            "mae": 0.26591754155730535,
+            "rmse": 0.37993298389503544
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "KGELTAGQDYGGYYH",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": 0.000107803511817,
+            "abs_error": 0.000107803511817
+          },
+          {
+            "Sequence": "KFTKVLTTIKLIGKA",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 1.0,
+            "predicted": 0.9998288136165984,
+            "abs_error": 0.0001711863834017
+          },
+          {
+            "Sequence": "VHGSGGNTYDKGHVE",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": -0.00017283483855,
+            "abs_error": 0.00017283483855
+          },
+          {
+            "Sequence": "EKHQAENTRQEALRL",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": 0.0003757838163177,
+            "abs_error": 0.0003757838163177
+          },
+          {
+            "Sequence": "QSTWMGAWMGFGMAG",
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": 0.0006222463818099,
+            "abs_error": 0.0006222463818099
+          }
+        ]
+      },
+      {
+        "target": "Antibp2",
+        "best_feature_set": "composition_dipeptide",
+        "best_model": "extra_trees",
+        "r2": 0.5249032685420298,
+        "mae": 0.13365281605424323,
+        "rmse": 0.20067659649910327,
+        "delta_vs_v1": -0.06728206139104653,
+        "leaderboard": [
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.5249032685420298,
+            "mae": 0.13365281605424323,
+            "rmse": 0.20067659649910327
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.43142986968089336,
+            "mae": 0.15751136805339924,
+            "rmse": 0.21953194523941694
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.40620548811374013,
+            "mae": 0.16071471723365,
+            "rmse": 0.2243488228238652
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.4049225236331625,
+            "mae": 0.15827378519125218,
+            "rmse": 0.22459105836093476
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.3659388693776594,
+            "mae": 0.15794996719160107,
+            "rmse": 0.2318308730990871
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.2669352171331504,
+            "mae": 0.17140961470825147,
+            "rmse": 0.24927394304925538
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "MWMFMRLLPHIQYTG",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": -0.428,
+            "predicted": -0.4280083333333334,
+            "abs_error": 8.333333333387927e-06
+          },
+          {
+            "Sequence": "FIWFIWIILPKIPGG",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": -0.109,
+            "predicted": -0.108975,
+            "abs_error": 2.4999999999997247e-05
+          },
+          {
+            "Sequence": "AKWNWWRARVRAFFF",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": -0.136999999999999,
+            "predicted": -0.1369499999999999,
+            "abs_error": 4.99999999990508e-05
+          },
+          {
+            "Sequence": "YYKIYMGWKYWMKRA",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": -0.07,
+            "predicted": -0.0699416666666666,
+            "abs_error": 5.833333333334079e-05
+          },
+          {
+            "Sequence": "KNGKNFHPKPPVQGQ",
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "actual": -0.066,
+            "predicted": -0.0660583333333333,
+            "abs_error": 5.833333333335466e-05
+          }
+        ]
+      },
+      {
+        "target": "DBAASP",
+        "best_feature_set": "seq_hash",
+        "best_model": "ridge",
+        "r2": 0.14853417548882542,
+        "mae": 0.3207690162616248,
+        "rmse": 0.3941789842313757,
+        "delta_vs_v1": -0.011759498281070813,
+        "leaderboard": [
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "r2": 0.14853417548882542,
+            "mae": 0.3207690162616248,
+            "rmse": 0.3941789842313757
+          },
+          {
+            "feature_set": "hybrid",
+            "model": "ridge",
+            "r2": 0.1341844674304874,
+            "mae": 0.32255652337404583,
+            "rmse": 0.39748664518175914
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "ridge",
+            "r2": 0.1315505821192916,
+            "mae": 0.32346187328354353,
+            "rmse": 0.39809078035234285
+          },
+          {
+            "feature_set": "physchem",
+            "model": "ridge",
+            "r2": 0.1281736785819909,
+            "mae": 0.3264526918670545,
+            "rmse": 0.39886400321015
+          },
+          {
+            "feature_set": "composition_dipeptide",
+            "model": "extra_trees",
+            "r2": 0.11063709905118735,
+            "mae": 0.30507709973753283,
+            "rmse": 0.40285555822737795
+          },
+          {
+            "feature_set": "physchem",
+            "model": "extra_trees",
+            "r2": 0.06914233584535845,
+            "mae": 0.306444116360455,
+            "rmse": 0.41214638488129474
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "PPLRYNQCEMNIECG",
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": -0.0002463048213829,
+            "abs_error": 0.0002463048213829
+          },
+          {
+            "Sequence": "PILKEIGGFAAGGAW",
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": -0.0003259860297528,
+            "abs_error": 0.0003259860297528
+          },
+          {
+            "Sequence": "TFMPFIVIFDFWSTT",
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": 0.0003802831606119,
+            "abs_error": 0.0003802831606119
+          },
+          {
+            "Sequence": "EGMHGYMHSKKAGPT",
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": 0.0004121119117591,
+            "abs_error": 0.0004121119117591
+          },
+          {
+            "Sequence": "ISYDIGAHFSFNENA",
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "actual": 0.0,
+            "predicted": 0.0004211231304151,
+            "abs_error": 0.0004211231304151
+          }
+        ]
+      }
+    ],
+    "descriptorSets": {
+      "seq_hash": "Character hash n-grams from raw sequence",
+      "physchem": "Length, charge proxies, hydrophobic/polar/aromatic fractions, entropy, run lengths, secondary-structure proxies",
+      "composition_dipeptide": "Amino acid fractions, dipeptide frequencies, N/C terminal residue one-hots",
+      "hybrid": "Sequence hash n-grams plus physchem and composition/dipeptide descriptors"
+    }
   }
 }
