@@ -48,6 +48,15 @@
       <div class="panel span-6"><h2>Top 50 peptides by AVG</h2><div id="topScatter" style="height:460px"></div></div>
       <div class="panel span-6"><h2>Leaderboard metric mix</h2><div id="leaderHeatmap" style="height:460px"></div></div>
       <div class="panel span-12">
+        <h2>Sequence-to-score model performance</h2>
+        <p>Separate predictive models trained from peptide sequence for each score column. This is the first proper modeling layer on top of the master sheet.</p>
+        <div id="modelBars" style="height:420px"></div>
+      </div>
+      <div class="panel span-12">
+        <h2>Model summary table</h2>
+        <div class="table-wrap"><table id="modelTable"></table></div>
+      </div>
+      <div class="panel span-12">
         <h2>Top peptides table</h2>
         <p>First 250 entries sorted by <code>AVG</code>. Handy for quick inspection and later annotations.</p>
         <div class="table-wrap"><table id="leadersTable"></table></div>
@@ -129,6 +138,21 @@
         paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#e8ecf8'},
         margin:{t:20,l:150,r:10,b:80}
       }, {displayModeBar:false, responsive:true});
+
+      const modelResults = data.sequenceModeling?.results || [];
+      Plotly.newPlot('modelBars', [{
+        x: modelResults.map(r => r.target),
+        y: modelResults.map(r => r.r2),
+        type:'bar',
+        marker:{color:modelResults.map(r => r.r2), colorscale:'Viridis'}
+      }], {
+        paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#e8ecf8'},
+        xaxis:{title:'Target score'}, yaxis:{title:'Holdout R²', gridcolor:'#243055', range:[0,1]}, margin:{t:20,l:50,r:10,b:60}
+      }, {displayModeBar:false, responsive:true});
+
+      const modelCols = ['target','best_model','r2','mae','rmse'];
+      const modelTable = document.getElementById('modelTable');
+      modelTable.innerHTML = `<thead><tr>${modelCols.map(c => `<th>${c}</th>`).join('')}<th>best predictions (closest holdout examples)</th></tr></thead><tbody>${modelResults.map(r => `<tr>${modelCols.map(c => `<td>${typeof r[c] === 'number' ? fmt(r[c], 4) : r[c]}</td>`).join('')}<td>${r.examples.map(ex => `${ex.Sequence} → actual ${fmt(ex.actual,4)}, pred ${fmt(ex.predicted,4)}`).join('<br>')}</td></tr>`).join('')}</tbody>`;
 
       const cols = ['Rank','Order','Test Batch','Sequence','iAMP','AMPScan','Antibp2','SVM','RF','ANN','DA','DBAASP','AVG'];
       const table = document.getElementById('leadersTable');

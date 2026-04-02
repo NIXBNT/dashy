@@ -4040,5 +4040,367 @@
       "DBAASP": 1.0,
       "AVG": 0.831425
     }
-  ]
+  ],
+  "sequenceModeling": {
+    "overview": {
+      "modelCount": 9,
+      "bestTargetByR2": "AVG",
+      "bestR2": 0.8008332710278494,
+      "worstTargetByR2": "DBAASP",
+      "worstR2": 0.16029367376989623
+    },
+    "results": [
+      {
+        "target": "AVG",
+        "best_model": "extra_trees",
+        "r2": 0.8008332710278494,
+        "mae": 0.08705728156783137,
+        "rmse": 0.11388827092988806,
+        "examples": [
+          {
+            "Sequence": "WFSAAWYFTWTYEQT",
+            "actual": 0.0883875,
+            "predicted": 0.08833515625,
+            "abs_error": 5.234374999997515e-05
+          },
+          {
+            "Sequence": "GKPTLFYKKIFTIPW",
+            "actual": 0.6785125,
+            "predicted": 0.6784484375,
+            "abs_error": 6.406250000001723e-05
+          },
+          {
+            "Sequence": "VLHFGLMFRRLRKAK",
+            "actual": 0.669025,
+            "predicted": 0.6691115625,
+            "abs_error": 8.656250000005361e-05
+          },
+          {
+            "Sequence": "FAWKLGFFGFWAPLG",
+            "actual": 0.4837375,
+            "predicted": 0.4838881250000001,
+            "abs_error": 0.0001506250000001
+          },
+          {
+            "Sequence": "KAIMRNAFMRFRHRH",
+            "actual": 0.4985625,
+            "predicted": 0.4983904687500001,
+            "abs_error": 0.0001720312499999
+          }
+        ]
+      },
+      {
+        "target": "RF",
+        "best_model": "extra_trees",
+        "r2": 0.7877741455209504,
+        "mae": 0.08292302329396325,
+        "rmse": 0.10899912036087686,
+        "examples": [
+          {
+            "Sequence": "EHRMNHGYKHHRRRH",
+            "actual": 0.3005,
+            "predicted": 0.30041875,
+            "abs_error": 8.124999999997717e-05
+          },
+          {
+            "Sequence": "KSFPYFKMKFYMFHK",
+            "actual": 0.407,
+            "predicted": 0.4067562499999998,
+            "abs_error": 0.0002437500000001
+          },
+          {
+            "Sequence": "FFQGFFQQWQMMGFE",
+            "actual": 0.1595,
+            "predicted": 0.1592374999999999,
+            "abs_error": 0.0002625
+          },
+          {
+            "Sequence": "REWVSKEDVTQNEPQ",
+            "actual": 0.1085,
+            "predicted": 0.1081937499999999,
+            "abs_error": 0.00030625
+          },
+          {
+            "Sequence": "TVMLRKKSDYSLYIE",
+            "actual": 0.163,
+            "predicted": 0.16330625,
+            "abs_error": 0.00030625
+          }
+        ]
+      },
+      {
+        "target": "iAMP",
+        "best_model": "extra_trees",
+        "r2": 0.7728392746055412,
+        "mae": 0.09873254593175851,
+        "rmse": 0.13005152572941892,
+        "examples": [
+          {
+            "Sequence": "FVYGFQIKFMPQQEI",
+            "actual": 0.461,
+            "predicted": 0.4610625000000001,
+            "abs_error": 6.25000000001319e-05
+          },
+          {
+            "Sequence": "IFGPFMWKEMKLILW",
+            "actual": 0.74,
+            "predicted": 0.7402125000000002,
+            "abs_error": 0.0002125000000001
+          },
+          {
+            "Sequence": "WRDTTARYYTFAVRV",
+            "actual": 0.343,
+            "predicted": 0.3425250000000001,
+            "abs_error": 0.0004749999999999
+          },
+          {
+            "Sequence": "VKGWGHWPFGFGGKP",
+            "actual": 0.78,
+            "predicted": 0.7793749999999997,
+            "abs_error": 0.0006250000000003
+          },
+          {
+            "Sequence": "EWSAMYGWGQMETYT",
+            "actual": 0.49,
+            "predicted": 0.4906500000000002,
+            "abs_error": 0.0006500000000002
+          }
+        ]
+      },
+      {
+        "target": "DA",
+        "best_model": "extra_trees",
+        "r2": 0.7018765079663665,
+        "mae": 0.13968710219816272,
+        "rmse": 0.1942552771773661,
+        "examples": [
+          {
+            "Sequence": "FFGVFWKWKGGFKKF",
+            "actual": 0.974,
+            "predicted": 0.9739624999999996,
+            "abs_error": 3.750000000035669e-05
+          },
+          {
+            "Sequence": "GMNYLWWPKHPMPGP",
+            "actual": 0.11,
+            "predicted": 0.1099124999999999,
+            "abs_error": 8.750000000005975e-05
+          },
+          {
+            "Sequence": "KIGGIVKFQGFNANA",
+            "actual": 0.927,
+            "predicted": 0.9272875,
+            "abs_error": 0.0002874999999998
+          },
+          {
+            "Sequence": "TWVPHETTAGKMGSK",
+            "actual": 0.02,
+            "predicted": 0.02035,
+            "abs_error": 0.0003499999999999
+          },
+          {
+            "Sequence": "PVHPFEVAAQHWRGD",
+            "actual": 0.008,
+            "predicted": 0.0084,
+            "abs_error": 0.0004
+          }
+        ]
+      },
+      {
+        "target": "AMPScan",
+        "best_model": "extra_trees",
+        "r2": 0.617239194807033,
+        "mae": 0.1778117413057743,
+        "rmse": 0.25538551911261215,
+        "examples": [
+          {
+            "Sequence": "HRAEQKEHDDMQDGM",
+            "actual": 0.0021,
+            "predicted": 0.0021,
+            "abs_error": 4.336808689942019e-19
+          },
+          {
+            "Sequence": "IRWGGIGYIWWTIKM",
+            "actual": 0.9666,
+            "predicted": 0.9665724999999998,
+            "abs_error": 2.750000000018016e-05
+          },
+          {
+            "Sequence": "KPRPHFAELVSKIEG",
+            "actual": 0.0145,
+            "predicted": 0.0145449999999999,
+            "abs_error": 4.4999999999998166e-05
+          },
+          {
+            "Sequence": "MMDILDGSVESEFHY",
+            "actual": 0.0007,
+            "predicted": 0.0005325,
+            "abs_error": 0.0001674999999999
+          },
+          {
+            "Sequence": "TKIIIPPFMFKNRYN",
+            "actual": 0.3737,
+            "predicted": 0.3739274999999999,
+            "abs_error": 0.0002274999999999
+          }
+        ]
+      },
+      {
+        "target": "Antibp2",
+        "best_model": "extra_trees",
+        "r2": 0.5921853299330764,
+        "mae": 0.12255139435695539,
+        "rmse": 0.1859247163512788,
+        "examples": [
+          {
+            "Sequence": "IPKIKLKKLLEPKLE",
+            "actual": -0.058,
+            "predicted": -0.0581,
+            "abs_error": 0.0001
+          },
+          {
+            "Sequence": "HNVIVHDKIKIDHTH",
+            "actual": -0.182,
+            "predicted": -0.1818874999999999,
+            "abs_error": 0.0001125
+          },
+          {
+            "Sequence": "MHNKHRYRHTHNGNK",
+            "actual": -0.065,
+            "predicted": -0.0648624999999999,
+            "abs_error": 0.0001375
+          },
+          {
+            "Sequence": "DYVDPWYLYGDYPQL",
+            "actual": -0.245,
+            "predicted": -0.2447999999999999,
+            "abs_error": 0.0002
+          },
+          {
+            "Sequence": "PVQISKPQEQKFPPF",
+            "actual": -0.146,
+            "predicted": -0.1457875,
+            "abs_error": 0.0002124999999999
+          }
+        ]
+      },
+      {
+        "target": "ANN",
+        "best_model": "extra_trees",
+        "r2": 0.5782095425634419,
+        "mae": 0.2125615157480315,
+        "rmse": 0.3205724910700229,
+        "examples": [
+          {
+            "Sequence": "RWIEVIAMNTNPTLV",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "LLKWIVKKILKKKGG",
+            "actual": 1.0,
+            "predicted": 1.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "DNFNWPLWPYDAVHK",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "LWGWGGPQKPNWWLK",
+            "actual": 1.0,
+            "predicted": 1.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "AYKFMKYQSAHYMQY",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          }
+        ]
+      },
+      {
+        "target": "SVM",
+        "best_model": "extra_trees",
+        "r2": 0.5597800711676628,
+        "mae": 0.17059499261811023,
+        "rmse": 0.22682645045337377,
+        "examples": [
+          {
+            "Sequence": "RFLFVGDGRTQRADV",
+            "actual": 0.066,
+            "predicted": 0.06615,
+            "abs_error": 0.00015
+          },
+          {
+            "Sequence": "WAFTFQFMFSTAAAY",
+            "actual": 0.047,
+            "predicted": 0.0472874999999999,
+            "abs_error": 0.0002874999999999
+          },
+          {
+            "Sequence": "WQSRENIDNKFSVFT",
+            "actual": 0.075,
+            "predicted": 0.0746,
+            "abs_error": 0.0003999999999999
+          },
+          {
+            "Sequence": "YGIQHGPKDGVDEKP",
+            "actual": 0.183,
+            "predicted": 0.1834874999999999,
+            "abs_error": 0.0004874999999999
+          },
+          {
+            "Sequence": "QFLRKGFETYQNPFS",
+            "actual": 0.123,
+            "predicted": 0.1224125,
+            "abs_error": 0.0005875
+          }
+        ]
+      },
+      {
+        "target": "DBAASP",
+        "best_model": "ridge",
+        "r2": 0.16029367376989623,
+        "mae": 0.3171471049439012,
+        "rmse": 0.39144753982150854,
+        "examples": [
+          {
+            "Sequence": "AEEMQDIGDGHFGIR",
+            "actual": 0.0,
+            "predicted": 0.00010282178517,
+            "abs_error": 0.00010282178517
+          },
+          {
+            "Sequence": "YWQHDYDFEYMRIAM",
+            "actual": 0.0,
+            "predicted": 0.0002928437210552,
+            "abs_error": 0.0002928437210552
+          },
+          {
+            "Sequence": "TEGNENNAAHNTKAK",
+            "actual": 0.0,
+            "predicted": 0.0004922892089527,
+            "abs_error": 0.0004922892089527
+          },
+          {
+            "Sequence": "NQTVVLINIQANGIV",
+            "actual": 0.0,
+            "predicted": 0.0005353789772187,
+            "abs_error": 0.0005353789772187
+          },
+          {
+            "Sequence": "QQLWEGLKEWTLGTE",
+            "actual": 0.0,
+            "predicted": 0.0010289307230382,
+            "abs_error": 0.0010289307230382
+          }
+        ]
+      }
+    ]
+  }
 }
