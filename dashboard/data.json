@@ -4429,870 +4429,867 @@
     "updatePolicy": "Every completed analysis is pushed and reflected in the public dashboard."
   },
   "currentAnalysis": {
-    "title": "Descriptor expansion and per-target model comparison",
-    "summary": "Compared sequence hash, physchem descriptors, composition+dipeptide descriptors, and hybrid features across separate target-specific models.",
+    "title": "Modeling v3: blended sequence + descriptor learners",
+    "summary": "Thorough v3 pass with sequence hash ridge, dense descriptor gradient boosting, reduced hybrid features, and validation-tuned blending. Results compared against v1 and v2 baselines per target.",
     "results": [
       {
-        "target": "AVG",
-        "best_feature_set": "hybrid",
-        "best_model": "ridge",
-        "r2": 0.7892460036432635,
-        "mae": 0.094293452228723,
-        "rmse": 0.11715437550845909,
-        "delta_vs_v1": -0.01158726738458593,
+        "target": "iAMP",
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+        "r2": 0.8821587265065162,
+        "mae": 0.07004154238121837,
+        "rmse": 0.09366935759877273,
+        "delta_vs_v1": 0.10931945190097492,
+        "delta_vs_v2": 0.13684428962587014,
+        "v1_r2": 0.7728392746055412,
+        "v2_r2": 0.745314436880646,
+        "v3_r2": 0.8821587265065162,
         "leaderboard": [
           {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.7892460036432635,
-            "mae": 0.094293452228723,
-            "rmse": 0.11715437550845909
+            "feature_set": "blend",
+            "model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+            "r2": 0.8739186587511971,
+            "mae": 0.07214148660703885,
+            "rmse": 0.0977997897892565
           },
           {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.7707748997375058,
-            "mae": 0.09419051632217847,
-            "rmse": 0.1221804414006154
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8719797455095559,
+            "mae": 0.07302334772541393,
+            "rmse": 0.09854891662455272
           },
           {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.7704721281737058,
-            "mae": 0.09844569137046352,
-            "rmse": 0.12226110568186274
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8656409870685249,
+            "mae": 0.07616861103430064,
+            "rmse": 0.10095920301699524
           },
           {
             "feature_set": "seq_hash",
             "model": "ridge",
-            "r2": 0.7683650031937076,
-            "mae": 0.0985084290924131,
-            "rmse": 0.12282101780298303
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.6810388009263522,
-            "mae": 0.11013815609962818,
-            "rmse": 0.14412507016888343
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.6674361219123628,
-            "mae": 0.11755172556640066,
-            "rmse": 0.147166222367753
+            "alpha": 3.0,
+            "r2": 0.6688024269093857,
+            "mae": 0.1284812185958032,
+            "rmse": 0.15850978762828508
           }
         ],
         "examples": [
           {
-            "Sequence": "HHLWTRDWMRQQKST",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.050375,
-            "predicted": 0.0504407211911035,
-            "abs_error": 6.572119110351271e-05
+            "Sequence": "REPYKVNHQQEWVDA",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+            "actual": 0.083,
+            "predicted": 0.0829923553071805,
+            "abs_error": 7.64469281951119e-06
           },
           {
-            "Sequence": "TGRNTHTKTYHEHKY",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.2243,
-            "predicted": 0.2241930863384414,
-            "abs_error": 0.0001069136615585
+            "Sequence": "SKFFKFMGRWSFFSF",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+            "actual": 0.6,
+            "predicted": 0.5999704751002441,
+            "abs_error": 2.9524899755828397e-05
           },
           {
-            "Sequence": "GEEFALVKGVFSIVK",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.40665,
-            "predicted": 0.406501039167995,
-            "abs_error": 0.0001489608320049
+            "Sequence": "VFGRMNMRANNNRWR",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+            "actual": 0.56,
+            "predicted": 0.560029532836473,
+            "abs_error": 2.953283647300076e-05
           },
           {
-            "Sequence": "ACPFPFDIQAAQICI",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.3153125,
-            "predicted": 0.3155070277292975,
-            "abs_error": 0.0001945277292975
+            "Sequence": "WDLDDEWMKVWKMLM",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+            "actual": 0.73,
+            "predicted": 0.7300712428195101,
+            "abs_error": 7.124281951009781e-05
           },
           {
-            "Sequence": "IYWFWEMIWFGGLMT",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.2087875,
-            "predicted": 0.2090661936653527,
-            "abs_error": 0.0002786936653527
+            "Sequence": "TNHMVRREDQYAEHD",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + hybrid_dense/hist_gradient_boosting)",
+            "actual": 0.068,
+            "predicted": 0.0678161105067152,
+            "abs_error": 0.0001838894932847
           }
         ]
       },
       {
         "target": "RF",
-        "best_feature_set": "hybrid",
-        "best_model": "ridge",
-        "r2": 0.7484537200446281,
-        "mae": 0.09395338785738552,
-        "rmse": 0.11866777438314584,
-        "delta_vs_v1": -0.03932042547632231,
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.8785569026324631,
+        "mae": 0.06273187477184358,
+        "rmse": 0.08245372212289849,
+        "delta_vs_v1": 0.09078275711151274,
+        "delta_vs_v2": 0.13010318258783504,
+        "v1_r2": 0.7877741455209504,
+        "v2_r2": 0.7484537200446281,
+        "v3_r2": 0.8785569026324631,
         "leaderboard": [
           {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.7484537200446281,
-            "mae": 0.09395338785738552,
-            "rmse": 0.11866777438314584
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.8824261832391644,
+            "mae": 0.06173363685483569,
+            "rmse": 0.08028212266558293
           },
           {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.7416166484275484,
-            "mae": 0.09266094160104986,
-            "rmse": 0.12026966779126924
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8809195199366726,
+            "mae": 0.06254777685836566,
+            "rmse": 0.08079487748878307
           },
           {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.7293107697811727,
-            "mae": 0.09805126380506726,
-            "rmse": 0.12310036375101513
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8766595026719622,
+            "mae": 0.06374327677737911,
+            "rmse": 0.08222736738245233
           },
           {
             "feature_set": "seq_hash",
             "model": "ridge",
-            "r2": 0.7211451213462579,
-            "mae": 0.0987924995484406,
-            "rmse": 0.12494329967733134
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.6667451210555391,
-            "mae": 0.10404442667322834,
-            "rmse": 0.13658786161403366
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.5865984681537052,
-            "mae": 0.11872024967335307,
-            "rmse": 0.15212825668342525
+            "alpha": 3.0,
+            "r2": 0.7150342387261563,
+            "mae": 0.09935275260807952,
+            "rmse": 0.12498557128241883
           }
         ],
         "examples": [
           {
-            "Sequence": "GTKATYLVTRPIYKQ",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.3605,
-            "predicted": 0.3604621116057139,
-            "abs_error": 3.788839428603419e-05
+            "Sequence": "NQKNPNFFNVEQFGE",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.1305,
+            "predicted": 0.1305253193876922,
+            "abs_error": 2.531938769220754e-05
           },
           {
-            "Sequence": "QAFKMIQMKHRKHFV",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.3685,
-            "predicted": 0.3685805057554214,
-            "abs_error": 8.05057554214006e-05
+            "Sequence": "FVYGFQIKFMPQQEI",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.1435,
+            "predicted": 0.1435280248666207,
+            "abs_error": 2.8024866620735e-05
           },
           {
-            "Sequence": "LNINKVGKTKALGVV",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.6055,
-            "predicted": 0.6056507746000913,
-            "abs_error": 0.0001507746000912
+            "Sequence": "AHPGYLHHPVHWWMH",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.2715,
+            "predicted": 0.2715349683639772,
+            "abs_error": 3.496836397720582e-05
           },
           {
-            "Sequence": "KALFMPFVAKPYKKI",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.5835,
-            "predicted": 0.5833056858293713,
-            "abs_error": 0.0001943141706287
+            "Sequence": "QRFARLFGLRVQDFG",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.303,
+            "predicted": 0.3031760916053737,
+            "abs_error": 0.0001760916053736
           },
           {
-            "Sequence": "LLVFLNFNKTLNIFV",
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "actual": 0.468,
-            "predicted": 0.4677921664323871,
-            "abs_error": 0.0002078335676129
+            "Sequence": "EVHHKNPNKHFGNNF",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.135,
+            "predicted": 0.1348086807677434,
+            "abs_error": 0.0001913192322565
           }
         ]
       },
       {
-        "target": "iAMP",
-        "best_feature_set": "composition_dipeptide",
-        "best_model": "extra_trees",
-        "r2": 0.745314436880646,
-        "mae": 0.10717319553805772,
-        "rmse": 0.13770540662610908,
-        "delta_vs_v1": -0.027524837724895224,
+        "target": "AVG",
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.8646721244003385,
+        "mae": 0.07313345807406169,
+        "rmse": 0.09387808808686121,
+        "delta_vs_v1": 0.06383885337248907,
+        "delta_vs_v2": 0.075426120757075,
+        "v1_r2": 0.8008332710278494,
+        "v2_r2": 0.7892460036432635,
+        "v3_r2": 0.8646721244003385,
         "leaderboard": [
           {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.745314436880646,
-            "mae": 0.10717319553805772,
-            "rmse": 0.13770540662610908
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.8651012067486932,
+            "mae": 0.07289255643780436,
+            "rmse": 0.09420024182679651
           },
           {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.6889715582914606,
-            "mae": 0.12110048057272733,
-            "rmse": 0.1521769517132408
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8642096890802424,
+            "mae": 0.07287833159061273,
+            "rmse": 0.09451100399551403
+          },
+          {
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8608862991301516,
+            "mae": 0.07335269865256296,
+            "rmse": 0.09566056410579091
           },
           {
             "feature_set": "seq_hash",
             "model": "ridge",
-            "r2": 0.6677684977044682,
-            "mae": 0.12556213755288329,
-            "rmse": 0.1572784545944072
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.6566145722847911,
-            "mae": 0.12692129342881955,
-            "rmse": 0.15989679496765202
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.550460481856462,
-            "mae": 0.1418600557742782,
-            "rmse": 0.18295014836900245
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.5152196283378985,
-            "mae": 0.15322522702279634,
-            "rmse": 0.18998588743649472
+            "alpha": 3.0,
+            "r2": 0.7629107000483553,
+            "mae": 0.1000354470996352,
+            "rmse": 0.1248831838945104
           }
         ],
         "examples": [
           {
-            "Sequence": "MAMLKLFWIEKFLFL",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.66,
-            "predicted": 0.6600333333333338,
-            "abs_error": 3.333333333377375e-05
+            "Sequence": "FGWQWESESQGGMWG",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.1404625,
+            "predicted": 0.140461283190824,
+            "abs_error": 1.216809175946798e-06
           },
           {
-            "Sequence": "PNKKQKWHKGFEKEQ",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.5660000000000001,
-            "predicted": 0.5659416666666667,
-            "abs_error": 5.833333333338242e-05
+            "Sequence": "EWFEKAPMFLMPIWP",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.10375,
+            "predicted": 0.1038224832251907,
+            "abs_error": 7.248322519071149e-05
           },
           {
-            "Sequence": "WVIWNFWWMMKQYIQ",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.69,
-            "predicted": 0.6899166666666666,
-            "abs_error": 8.333333333332416e-05
+            "Sequence": "HGLKHYMHWMMKGVL",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.2783625,
+            "predicted": 0.2782736547923943,
+            "abs_error": 8.884520760565895e-05
           },
           {
-            "Sequence": "GTWMQTEYEWWYEAE",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.62,
-            "predicted": 0.6197916666666666,
-            "abs_error": 0.0002083333333333
+            "Sequence": "YQAENSEESLRVLDK",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.079975,
+            "predicted": -0.0798859135198638,
+            "abs_error": 8.908648013615517e-05
           },
           {
-            "Sequence": "NMMHNRRNGRRKMGR",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.63,
-            "predicted": 0.6302749999999996,
-            "abs_error": 0.0002749999999995
+            "Sequence": "TQFDTTVLLYDQARY",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.045725,
+            "predicted": -0.0455302127162741,
+            "abs_error": 0.0001947872837258
           }
         ]
       },
       {
         "target": "DA",
-        "best_feature_set": "composition_dipeptide",
-        "best_model": "extra_trees",
-        "r2": 0.6949469309885496,
-        "mae": 0.14464661526684164,
-        "rmse": 0.19649994142141586,
-        "delta_vs_v1": -0.00692957697781682,
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.8360615371166553,
+        "mae": 0.10518416274662824,
+        "rmse": 0.14405062778533556,
+        "delta_vs_v1": 0.13418502915028885,
+        "delta_vs_v2": 0.14111460612810567,
+        "v1_r2": 0.7018765079663665,
+        "v2_r2": 0.6949469309885496,
+        "v3_r2": 0.8360615371166553,
         "leaderboard": [
           {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.6949469309885496,
-            "mae": 0.14464661526684164,
-            "rmse": 0.19649994142141586
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.8280334017989396,
+            "mae": 0.10533422333547339,
+            "rmse": 0.14772913950975966
           },
           {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.6778530653271072,
-            "mae": 0.1627198698746295,
-            "rmse": 0.20193041023225158
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8271861251262119,
+            "mae": 0.10608957483197906,
+            "rmse": 0.14809262189305106
           },
           {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.6383240279745224,
-            "mae": 0.17381913638491867,
-            "rmse": 0.21396096826964878
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.8248310605246614,
+            "mae": 0.10651923346050911,
+            "rmse": 0.149098291981981
           },
           {
             "feature_set": "seq_hash",
             "model": "ridge",
-            "r2": 0.6241144521797002,
-            "mae": 0.17775284993817697,
-            "rmse": 0.21812354131712114
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.5955920574674605,
-            "mae": 0.16733822998687664,
-            "rmse": 0.22624790383172222
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.5617486706129551,
-            "mae": 0.1912542711167534,
-            "rmse": 0.23552463911643573
+            "alpha": 3.0,
+            "r2": 0.6147436747701129,
+            "mae": 0.1798945642172462,
+            "rmse": 0.22111540817011538
           }
         ],
         "examples": [
           {
-            "Sequence": "SLEQYTGGINKKLPG",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.125,
-            "predicted": 0.1252083333333333,
-            "abs_error": 0.0002083333333333
+            "Sequence": "RPMFGKGVFLLPGLA",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.319,
+            "predicted": 0.3189825725102462,
+            "abs_error": 1.7427489753807368e-05
           },
           {
-            "Sequence": "SFEYFYATMSSGQGA",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
+            "Sequence": "TKVIIKQKKPIKSFV",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.947,
+            "predicted": 0.9470647181908328,
+            "abs_error": 6.47181908329797e-05
+          },
+          {
+            "Sequence": "YHFFLNVLNCHHRWN",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.007,
+            "predicted": 0.0069305886004963,
+            "abs_error": 6.941139950361695e-05
+          },
+          {
+            "Sequence": "HAMFLVYSAHLKQSL",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.061,
+            "predicted": 0.0610808117943656,
+            "abs_error": 8.081179436564279e-05
+          },
+          {
+            "Sequence": "KDGYFQRTGVIRETN",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
             "actual": 0.0069999999999999,
-            "predicted": 0.0067833333333333,
-            "abs_error": 0.0002166666666666
-          },
-          {
-            "Sequence": "KWAKKMFASKGKFGR",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.8370000000000001,
-            "predicted": 0.837258333333333,
-            "abs_error": 0.0002583333333329
-          },
-          {
-            "Sequence": "ARDVFGRRQVQQQFF",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.171,
-            "predicted": 0.1714749999999998,
-            "abs_error": 0.0004749999999998
-          },
-          {
-            "Sequence": "IRRRGDHMAIGAHFH",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.09,
-            "predicted": 0.0894083333333333,
-            "abs_error": 0.0005916666666666
-          }
-        ]
-      },
-      {
-        "target": "AMPScan",
-        "best_feature_set": "composition_dipeptide",
-        "best_model": "ridge",
-        "r2": 0.6147816844701812,
-        "mae": 0.2106550466681706,
-        "rmse": 0.2562040569190976,
-        "delta_vs_v1": -0.0024575103368518203,
-        "leaderboard": [
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.6147816844701812,
-            "mae": 0.2106550466681706,
-            "rmse": 0.2562040569190976
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.61081507294845,
-            "mae": 0.18393313265529312,
-            "rmse": 0.25751975139903505
-          },
-          {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.6034278219724282,
-            "mae": 0.2125403616613754,
-            "rmse": 0.259952297248603
-          },
-          {
-            "feature_set": "seq_hash",
-            "model": "ridge",
-            "r2": 0.5907972648113651,
-            "mae": 0.2183289743615769,
-            "rmse": 0.2640595035547346
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.5552077256218639,
-            "mae": 0.19707859416010498,
-            "rmse": 0.27530313450780597
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.550518017891635,
-            "mae": 0.23018972848081484,
-            "rmse": 0.2767506707526363
-          }
-        ],
-        "examples": [
-          {
-            "Sequence": "PPEGKFKGMKFAPFI",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.5841,
-            "predicted": 0.5843734241873674,
-            "abs_error": 0.0002734241873674
-          },
-          {
-            "Sequence": "ARMIMEARRRFDFQF",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0038,
-            "predicted": 0.0033798618748486,
-            "abs_error": 0.0004201381251513
-          },
-          {
-            "Sequence": "KIWGFEGIQGLKKWL",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.5467,
-            "predicted": 0.5472659603223331,
-            "abs_error": 0.0005659603223331
-          },
-          {
-            "Sequence": "EWSAMYGWGQMETYT",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0077,
-            "predicted": 0.0071108262280284,
-            "abs_error": 0.0005891737719715
-          },
-          {
-            "Sequence": "GYWVDEMTNEKFKHS",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0546,
-            "predicted": 0.0538108207506966,
-            "abs_error": 0.0007891792493034
-          }
-        ]
-      },
-      {
-        "target": "SVM",
-        "best_feature_set": "composition_dipeptide",
-        "best_model": "extra_trees",
-        "r2": 0.5840713264531028,
-        "mae": 0.168337688648294,
-        "rmse": 0.22047953159679337,
-        "delta_vs_v1": 0.02429125528543996,
-        "leaderboard": [
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.5840713264531028,
-            "mae": 0.168337688648294,
-            "rmse": 0.22047953159679337
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.5347273748357669,
-            "mae": 0.18418436635156993,
-            "rmse": 0.23319143640890977
-          },
-          {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.5294840416654424,
-            "mae": 0.18472541628273823,
-            "rmse": 0.23450171648330528
-          },
-          {
-            "feature_set": "seq_hash",
-            "model": "ridge",
-            "r2": 0.48351069169392313,
-            "mae": 0.1959906452889434,
-            "rmse": 0.2456911510253659
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.46415696074849944,
-            "mae": 0.19522431102362203,
-            "rmse": 0.25025204999913814
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.4181017230576636,
-            "mae": 0.2140721323839934,
-            "rmse": 0.2607848648367426
-          }
-        ],
-        "examples": [
-          {
-            "Sequence": "DYWGILGIAKIIFNP",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.256,
-            "predicted": 0.255975,
-            "abs_error": 2.4999999999941732e-05
-          },
-          {
-            "Sequence": "FHRNQQTKSIWRAYL",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.242,
-            "predicted": 0.2418916666666665,
-            "abs_error": 0.0001083333333334
-          },
-          {
-            "Sequence": "YIGYYGAIKWAAGMT",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.231999999999999,
-            "predicted": 0.2318833333333331,
-            "abs_error": 0.0001166666666658
-          },
-          {
-            "Sequence": "NNHGRGHTYHRAYNK",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.249,
-            "predicted": 0.2491249999999999,
-            "abs_error": 0.0001249999999999
-          },
-          {
-            "Sequence": "FQKWKQGRGTFKTAM",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": 0.799,
-            "predicted": 0.7987749999999995,
-            "abs_error": 0.0002250000000005
-          }
-        ]
-      },
-      {
-        "target": "ANN",
-        "best_feature_set": "composition_dipeptide",
-        "best_model": "ridge",
-        "r2": 0.5786655923257559,
-        "mae": 0.2668688190972849,
-        "rmse": 0.32039913894094096,
-        "delta_vs_v1": 0.0004560497623139481,
-        "leaderboard": [
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.5786655923257559,
-            "mae": 0.2668688190972849,
-            "rmse": 0.32039913894094096
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.5764430797600382,
-            "mae": 0.2293935914260717,
-            "rmse": 0.32124307016161324
-          },
-          {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.5632099642018993,
-            "mae": 0.2693143439265469,
-            "rmse": 0.326222745343151
-          },
-          {
-            "feature_set": "seq_hash",
-            "model": "ridge",
-            "r2": 0.5501364120091421,
-            "mae": 0.2736575849981569,
-            "rmse": 0.33106883328400527
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.44311844337935014,
-            "mae": 0.31258950862235024,
-            "rmse": 0.36834882965033644
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.40754107932738004,
-            "mae": 0.26591754155730535,
-            "rmse": 0.37993298389503544
-          }
-        ],
-        "examples": [
-          {
-            "Sequence": "KGELTAGQDYGGYYH",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0,
-            "predicted": 0.000107803511817,
-            "abs_error": 0.000107803511817
-          },
-          {
-            "Sequence": "KFTKVLTTIKLIGKA",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 1.0,
-            "predicted": 0.9998288136165984,
-            "abs_error": 0.0001711863834017
-          },
-          {
-            "Sequence": "VHGSGGNTYDKGHVE",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0,
-            "predicted": -0.00017283483855,
-            "abs_error": 0.00017283483855
-          },
-          {
-            "Sequence": "EKHQAENTRQEALRL",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0,
-            "predicted": 0.0003757838163177,
-            "abs_error": 0.0003757838163177
-          },
-          {
-            "Sequence": "QSTWMGAWMGFGMAG",
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "actual": 0.0,
-            "predicted": 0.0006222463818099,
-            "abs_error": 0.0006222463818099
+            "predicted": 0.0071280613729442,
+            "abs_error": 0.0001280613729442
           }
         ]
       },
       {
         "target": "Antibp2",
-        "best_feature_set": "composition_dipeptide",
-        "best_model": "extra_trees",
-        "r2": 0.5249032685420298,
-        "mae": 0.13365281605424323,
-        "rmse": 0.20067659649910327,
-        "delta_vs_v1": -0.06728206139104653,
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.7507060517605331,
+        "mae": 0.10091335900426149,
+        "rmse": 0.14536557595903377,
+        "delta_vs_v1": 0.1585207218274567,
+        "delta_vs_v2": 0.22580278321850322,
+        "v1_r2": 0.5921853299330764,
+        "v2_r2": 0.5249032685420298,
+        "v3_r2": 0.7507060517605331,
         "leaderboard": [
           {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.5249032685420298,
-            "mae": 0.13365281605424323,
-            "rmse": 0.20067659649910327
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.7514044360327726,
+            "mae": 0.10149705737906263,
+            "rmse": 0.14439544118236283
           },
           {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.43142986968089336,
-            "mae": 0.15751136805339924,
-            "rmse": 0.21953194523941694
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.7427515802442449,
+            "mae": 0.1014399688763336,
+            "rmse": 0.14688692949615448
+          },
+          {
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.7289572177705903,
+            "mae": 0.1030482736790217,
+            "rmse": 0.1507737435439041
           },
           {
             "feature_set": "seq_hash",
             "model": "ridge",
-            "r2": 0.40620548811374013,
-            "mae": 0.16071471723365,
-            "rmse": 0.2243488228238652
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.4049225236331625,
-            "mae": 0.15827378519125218,
-            "rmse": 0.22459105836093476
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.3659388693776594,
-            "mae": 0.15794996719160107,
-            "rmse": 0.2318308730990871
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.2669352171331504,
-            "mae": 0.17140961470825147,
-            "rmse": 0.24927394304925538
+            "alpha": 3.0,
+            "r2": 0.41360814174367544,
+            "mae": 0.15790177924224877,
+            "rmse": 0.22176896036414556
           }
         ],
         "examples": [
           {
-            "Sequence": "MWMFMRLLPHIQYTG",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": -0.428,
-            "predicted": -0.4280083333333334,
-            "abs_error": 8.333333333387927e-06
+            "Sequence": "QYFATAGFGWQGYQW",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.178,
+            "predicted": -0.1779320132026359,
+            "abs_error": 6.798679736405577e-05
           },
           {
-            "Sequence": "FIWFIWIILPKIPGG",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": -0.109,
-            "predicted": -0.108975,
-            "abs_error": 2.4999999999997247e-05
+            "Sequence": "MAKARRFRGKSWTRT",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.119,
+            "predicted": -0.1191395750695131,
+            "abs_error": 0.0001395750695131
           },
           {
-            "Sequence": "AKWNWWRARVRAFFF",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": -0.136999999999999,
-            "predicted": -0.1369499999999999,
-            "abs_error": 4.99999999990508e-05
+            "Sequence": "GGSWYVWDVIKWTFA",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.313,
+            "predicted": -0.3128216568045013,
+            "abs_error": 0.0001783431954986
           },
           {
-            "Sequence": "YYKIYMGWKYWMKRA",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": -0.07,
-            "predicted": -0.0699416666666666,
-            "abs_error": 5.833333333334079e-05
+            "Sequence": "TRIKWPRRAQTLQPP",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.244,
+            "predicted": -0.24420173624486,
+            "abs_error": 0.00020173624486
           },
           {
-            "Sequence": "KNGKNFHPKPPVQGQ",
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "actual": -0.066,
-            "predicted": -0.0660583333333333,
-            "abs_error": 5.833333333335466e-05
+            "Sequence": "TVVASMLMPYIRRRT",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": -0.471,
+            "predicted": -0.4707428192536776,
+            "abs_error": 0.0002571807463223
+          }
+        ]
+      },
+      {
+        "target": "SVM",
+        "best_feature_set": "hybrid_dense",
+        "best_model": "hist_gradient_boosting",
+        "r2": 0.6915355424888503,
+        "mae": 0.14033548635991533,
+        "rmse": 0.18987221295738635,
+        "delta_vs_v1": 0.13175547132118748,
+        "delta_vs_v2": 0.10746421603574752,
+        "v1_r2": 0.5597800711676628,
+        "v2_r2": 0.5840713264531028,
+        "v3_r2": 0.6915355424888503,
+        "leaderboard": [
+          {
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.6953029567859551,
+            "mae": 0.13844752593297596,
+            "rmse": 0.18908026909406792
+          },
+          {
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.6919586069639543,
+            "mae": 0.1418349273317853,
+            "rmse": 0.19011510823789532
+          },
+          {
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.6846353829224474,
+            "mae": 0.1428534982499426,
+            "rmse": 0.19236168578455787
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "alpha": 3.0,
+            "r2": 0.495118217910651,
+            "mae": 0.19535568495561192,
+            "rmse": 0.24339236004599615
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "APPWWFAPHPHHQPM",
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "actual": 0.182,
+            "predicted": 0.1820876839401057,
+            "abs_error": 8.768394010574831e-05
+          },
+          {
+            "Sequence": "FKKIFFPKIWIIPGK",
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "actual": 0.987,
+            "predicted": 0.9871076703066124,
+            "abs_error": 0.0001076703066122
+          },
+          {
+            "Sequence": "IGGHEHLIKGEEKDM",
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "actual": 0.328,
+            "predicted": 0.3281108774333084,
+            "abs_error": 0.0001108774333083
+          },
+          {
+            "Sequence": "GHGASHLQTLIVNVH",
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "actual": 0.436,
+            "predicted": 0.4361436869982643,
+            "abs_error": 0.0001436869982642
+          },
+          {
+            "Sequence": "VFTQDPTSLHKKAMH",
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "actual": 0.176,
+            "predicted": 0.1758440449996113,
+            "abs_error": 0.0001559550003886
+          }
+        ]
+      },
+      {
+        "target": "AMPScan",
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.682870232705147,
+        "mae": 0.17117944728461104,
+        "rmse": 0.23246150378249045,
+        "delta_vs_v1": 0.06563103789811398,
+        "delta_vs_v2": 0.0680885482349658,
+        "v1_r2": 0.617239194807033,
+        "v2_r2": 0.6147816844701812,
+        "v3_r2": 0.682870232705147,
+        "leaderboard": [
+          {
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.6911210393183677,
+            "mae": 0.16534373409830438,
+            "rmse": 0.22926577760521163
+          },
+          {
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.68660439543865,
+            "mae": 0.16015577696471564,
+            "rmse": 0.2309359363645154
+          },
+          {
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.6766781099515321,
+            "mae": 0.16233938777766904,
+            "rmse": 0.2345646829195869
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "alpha": 3.0,
+            "r2": 0.617976663261545,
+            "mae": 0.2090046371372393,
+            "rmse": 0.25497054705344946
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "AMRQMMMWKAGWKRK",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.6832,
+            "predicted": 0.6831914104025751,
+            "abs_error": 8.589597424890627e-06
+          },
+          {
+            "Sequence": "EVHHKNPNKHFGNNF",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.2062,
+            "predicted": 0.2061821797342977,
+            "abs_error": 1.7820265702267468e-05
+          },
+          {
+            "Sequence": "KMKAKAFPPFWQFFY",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.9014,
+            "predicted": 0.9014690270321504,
+            "abs_error": 6.902703215039274e-05
+          },
+          {
+            "Sequence": "FAKAMEIKELKPLEG",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.0014,
+            "predicted": 0.0013015878610618,
+            "abs_error": 9.841213893811511e-05
+          },
+          {
+            "Sequence": "WTESVDHVFYNTTWK",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.0011,
+            "predicted": 0.0012801304897243,
+            "abs_error": 0.0001801304897243
+          }
+        ]
+      },
+      {
+        "target": "ANN",
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.663439717455518,
+        "mae": 0.20607990655808753,
+        "rmse": 0.28635799223949515,
+        "delta_vs_v1": 0.08523017489207607,
+        "delta_vs_v2": 0.08477412512976212,
+        "v1_r2": 0.5782095425634419,
+        "v2_r2": 0.5786655923257559,
+        "v3_r2": 0.663439717455518,
+        "leaderboard": [
+          {
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.6549770654097684,
+            "mae": 0.2098225909571311,
+            "rmse": 0.2891850621632371
+          },
+          {
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.6538623096577105,
+            "mae": 0.20736441983391243,
+            "rmse": 0.2896518582906087
+          },
+          {
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.644566721640666,
+            "mae": 0.20422636744593495,
+            "rmse": 0.2935154165828364
+          },
+          {
+            "feature_set": "seq_hash",
+            "model": "ridge",
+            "alpha": 3.0,
+            "r2": 0.5554727900297433,
+            "mae": 0.2751290461484838,
+            "rmse": 0.32824721365514903
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "AKKRITRWMKKKARM",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 1.0,
+            "predicted": 0.9999912442477266,
+            "abs_error": 8.755752273437167e-06
+          },
+          {
+            "Sequence": "FKWYWVNQMGGFKKK",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 1.0,
+            "predicted": 0.9999556027856332,
+            "abs_error": 4.439721436666488e-05
+          },
+          {
+            "Sequence": "GKPTLFYKKIFTIPW",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 1.0,
+            "predicted": 0.9999223400067572,
+            "abs_error": 7.765999324282902e-05
+          },
+          {
+            "Sequence": "AMSGTGPAMGIGDLT",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 0.0,
+            "predicted": 0.0001068143583099,
+            "abs_error": 0.0001068143583099
+          },
+          {
+            "Sequence": "HRGKKRFFGKVFKGF",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "actual": 1.0,
+            "predicted": 0.9997616677218824,
+            "abs_error": 0.0002383322781176
           }
         ]
       },
       {
         "target": "DBAASP",
-        "best_feature_set": "seq_hash",
-        "best_model": "ridge",
-        "r2": 0.14853417548882542,
-        "mae": 0.3207690162616248,
-        "rmse": 0.3941789842313757,
-        "delta_vs_v1": -0.011759498281070813,
+        "best_feature_set": "blend",
+        "best_model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+        "r2": 0.21457767929459193,
+        "mae": 0.29957922738057013,
+        "rmse": 0.37858331958297325,
+        "delta_vs_v1": 0.0542840055246957,
+        "delta_vs_v2": 0.06604350380576651,
+        "v1_r2": 0.16029367376989623,
+        "v2_r2": 0.14853417548882542,
+        "v3_r2": 0.21457767929459193,
         "leaderboard": [
+          {
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
+            "r2": 0.22225869832914458,
+            "mae": 0.2928658423945109,
+            "rmse": 0.37637499652928363
+          },
+          {
+            "feature_set": "dense_descriptors",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "max_iter": 350,
+            "min_samples_leaf": 15,
+            "r2": 0.2154767250010865,
+            "mae": 0.2872027476129827,
+            "rmse": 0.37801244632406517
+          },
+          {
+            "feature_set": "hybrid_dense",
+            "model": "hist_gradient_boosting",
+            "learning_rate": 0.05,
+            "max_depth": 6,
+            "max_iter": 250,
+            "min_samples_leaf": 20,
+            "r2": 0.2062668547129628,
+            "mae": 0.292965893188637,
+            "rmse": 0.38022480106476086
+          },
           {
             "feature_set": "seq_hash",
             "model": "ridge",
-            "r2": 0.14853417548882542,
-            "mae": 0.3207690162616248,
-            "rmse": 0.3941789842313757
-          },
-          {
-            "feature_set": "hybrid",
-            "model": "ridge",
-            "r2": 0.1341844674304874,
-            "mae": 0.32255652337404583,
-            "rmse": 0.39748664518175914
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "ridge",
-            "r2": 0.1315505821192916,
-            "mae": 0.32346187328354353,
-            "rmse": 0.39809078035234285
-          },
-          {
-            "feature_set": "physchem",
-            "model": "ridge",
-            "r2": 0.1281736785819909,
-            "mae": 0.3264526918670545,
-            "rmse": 0.39886400321015
-          },
-          {
-            "feature_set": "composition_dipeptide",
-            "model": "extra_trees",
-            "r2": 0.11063709905118735,
-            "mae": 0.30507709973753283,
-            "rmse": 0.40285555822737795
-          },
-          {
-            "feature_set": "physchem",
-            "model": "extra_trees",
-            "r2": 0.06914233584535845,
-            "mae": 0.306444116360455,
-            "rmse": 0.41214638488129474
+            "alpha": 3.0,
+            "r2": 0.18081521052780536,
+            "mae": 0.31008311062948096,
+            "rmse": 0.38627279590419494
           }
         ],
         "examples": [
           {
-            "Sequence": "PPLRYNQCEMNIECG",
-            "feature_set": "seq_hash",
-            "model": "ridge",
+            "Sequence": "EWFEKAPMFLMPIWP",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
             "actual": 0.0,
-            "predicted": -0.0002463048213829,
-            "abs_error": 0.0002463048213829
+            "predicted": 6.800914567079569e-06,
+            "abs_error": 6.800914567079569e-06
           },
           {
-            "Sequence": "PILKEIGGFAAGGAW",
-            "feature_set": "seq_hash",
-            "model": "ridge",
+            "Sequence": "NKTPMWDMQQEGVIQ",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
             "actual": 0.0,
-            "predicted": -0.0003259860297528,
-            "abs_error": 0.0003259860297528
+            "predicted": 3.176290129702081e-05,
+            "abs_error": 3.176290129702081e-05
           },
           {
-            "Sequence": "TFMPFIVIFDFWSTT",
-            "feature_set": "seq_hash",
-            "model": "ridge",
+            "Sequence": "VDLFLNKVILNNDDD",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
             "actual": 0.0,
-            "predicted": 0.0003802831606119,
-            "abs_error": 0.0003802831606119
+            "predicted": 8.311909253459412e-05,
+            "abs_error": 8.311909253459412e-05
           },
           {
-            "Sequence": "EGMHGYMHSKKAGPT",
-            "feature_set": "seq_hash",
-            "model": "ridge",
+            "Sequence": "AEEMQDIGDGHFGIR",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
             "actual": 0.0,
-            "predicted": 0.0004121119117591,
-            "abs_error": 0.0004121119117591
+            "predicted": 0.0003286792202435,
+            "abs_error": 0.0003286792202435
           },
           {
-            "Sequence": "ISYDIGAHFSFNENA",
-            "feature_set": "seq_hash",
-            "model": "ridge",
+            "Sequence": "EPQSEEIFKFVSVFI",
+            "feature_set": "blend",
+            "model": "linear(seq_hash + dense_descriptors/hist_gradient_boosting)",
             "actual": 0.0,
-            "predicted": 0.0004211231304151,
-            "abs_error": 0.0004211231304151
+            "predicted": -0.0003513266520773,
+            "abs_error": 0.0003513266520773
           }
         ]
       }
     ],
     "descriptorSets": {
       "seq_hash": "Character hash n-grams from raw sequence",
-      "physchem": "Length, charge proxies, hydrophobic/polar/aromatic fractions, entropy, run lengths, secondary-structure proxies",
-      "composition_dipeptide": "Amino acid fractions, dipeptide frequencies, N/C terminal residue one-hots",
-      "hybrid": "Sequence hash n-grams plus physchem and composition/dipeptide descriptors"
+      "dense_descriptors": "Physicochemical + amino acid composition + dipeptide + terminal residue descriptors",
+      "hybrid_dense": "Dense descriptors plus reduced sequence components",
+      "blend": "Validation-tuned linear blend of best sequence and dense models"
+    },
+    "summaryStats": {
+      "bestTargetByR2": "iAMP",
+      "bestR2": 0.8821587265065162,
+      "biggestGainVsV1": "Antibp2",
+      "biggestGainValueVsV1": 0.1585207218274567
     },
     "topPeptideDescriptors": [
       {

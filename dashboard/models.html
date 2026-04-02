@@ -32,7 +32,7 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
   const rows=data.currentAnalysis.results;
   Plotly.newPlot('r2bars',[{x:rows.map(r=>r.target),y:rows.map(r=>r.r2),type:'bar',marker:{color:rows.map(r=>r.r2),colorscale:'Viridis'}}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},yaxis:{range:[0,1],gridcolor:'#243055'},margin:{t:20,l:50,r:10,b:60}},{displayModeBar:false,responsive:true});
   Plotly.newPlot('deltaBars',[{x:rows.map(r=>r.target),y:rows.map(r=>r.delta_vs_v1),type:'bar',marker:{color:rows.map(r=>r.delta_vs_v1),colorscale:'RdBu'}}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},yaxis:{gridcolor:'#243055'},margin:{t:20,l:50,r:10,b:60}},{displayModeBar:false,responsive:true});
-  const cols=['target','best_feature_set','best_model','r2','mae','rmse','delta_vs_v1'];
+  const cols=['target','best_feature_set','best_model','v1_r2','v2_r2','v3_r2','mae','rmse','delta_vs_v1','delta_vs_v2'];
   document.getElementById('modelTable').innerHTML=`<thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${typeof r[c]==='number'?fmt(r[c]):r[c]}</td>`).join('')}</tr>`).join('')}</tbody>`;
 });
 </script>
