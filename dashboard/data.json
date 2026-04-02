@@ -4402,5 +4402,26 @@
         ]
       }
     ]
+  },
+  "dashboardMeta": {
+    "sections": [
+      {
+        "id": "overview",
+        "label": "Overview"
+      },
+      {
+        "id": "data",
+        "label": "Master Data"
+      },
+      {
+        "id": "models",
+        "label": "Predictive Models"
+      },
+      {
+        "id": "leaders",
+        "label": "Top Peptides"
+      }
+    ],
+    "updatePolicy": "Every completed analysis is pushed and reflected in the public dashboard."
   }
 }
