@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Peptide Research Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root { --bg:#0b1020; --panel:#121933; --text:#e8ecf8; --muted:#98a2c3; --accent:#6ee7ff; --accent2:#a78bfa; --border:#243055; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,system-ui,sans-serif; background:linear-gradient(180deg,#0b1020,#0f1731); color:var(--text); }
+    .wrap { max-width:1400px; margin:0 auto; padding:24px; }
+    h1,h2 { margin:0 0 12px; }
+    p { color:var(--muted); }
+    .hero,.panel { background:rgba(18,25,51,.88); border:1px solid var(--border); border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+    .hero { padding:24px; margin-bottom:20px; }
+    .grid { display:grid; gap:16px; grid-template-columns:repeat(12,1fr); }
+    .card { grid-column:span 3; padding:18px; background:var(--panel); border:1px solid var(--border); border-radius:16px; }
+    .card .label { color:var(--muted); font-size:13px; }
+    .card .value { font-size:32px; font-weight:700; margin-top:6px; }
+    .panel { padding:18px; }
+    .span-6 { grid-column:span 6; }
+    .span-8 { grid-column:span 8; }
+    .span-4 { grid-column:span 4; }
+    .span-12 { grid-column:span 12; }
+    #leadersTable { width:100%; border-collapse:collapse; font-size:14px; }
+    #leadersTable th,#leadersTable td { padding:10px 8px; border-bottom:1px solid var(--border); text-align:left; }
+    #leadersTable th { position:sticky; top:0; background:var(--panel); }
+    .table-wrap { max-height:560px; overflow:auto; }
+    .footer { margin-top:16px; font-size:12px; color:var(--muted); }
+    a { color: var(--accent); }
+    @media (max-width: 900px){ .card,.span-6,.span-8,.span-4,.span-12 { grid-column:span 12; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Peptide Research Dashboard</h1>
+      <p>Live view of the master spreadsheet. This is the starting analysis surface — we can keep layering new analysis onto this dashboard as the repo evolves.</p>
+      <p><strong>Source:</strong> <code>All_PEPTIDE_Master.xlsx</code> · <span id="generatedFrom"></span></p>
+    </section>
+
+    <section class="grid" id="summaryCards"></section>
+
+    <section class="grid" style="margin-top:16px;">
+      <div class="panel span-8"><h2>Metric distributions</h2><div id="metricBoxplots" style="height:460px"></div></div>
+      <div class="panel span-4"><h2>Test batch coverage</h2><div id="batchBars" style="height:460px"></div></div>
+      <div class="panel span-6"><h2>Top 50 peptides by AVG</h2><div id="topScatter" style="height:460px"></div></div>
+      <div class="panel span-6"><h2>Leaderboard metric mix</h2><div id="leaderHeatmap" style="height:460px"></div></div>
+      <div class="panel span-12">
+        <h2>Top peptides table</h2>
+        <p>First 250 entries sorted by <code>AVG</code>. Handy for quick inspection and later annotations.</p>
+        <div class="table-wrap"><table id="leadersTable"></table></div>
+      </div>
+    </section>
+
+    <div class="footer">Public static dashboard in repo. Next step can be: filters, per-batch drilldowns, feature engineering, motif clustering, ML outputs, wet-lab result overlays.</div>
+  </div>
+
+  <script>
+    const fmt = (n, d=3) => n == null || Number.isNaN(n) ? '—' : Number(n).toFixed(d);
+    fetch('./data.json').then(r => r.json()).then(data => {
+      document.getElementById('generatedFrom').textContent = `generated from ${data.generatedFrom}`;
+      const s = data.summary;
+      const cards = [
+        ['Rows', s.rowCount, 0],
+        ['Unique test batches', s.uniqueBatches, 0],
+        ['Sequence length min', s.sequenceLengthRange[0], 0],
+        ['Sequence length max', s.sequenceLengthRange[1], 0],
+      ];
+      const cardWrap = document.getElementById('summaryCards');
+      cards.forEach(([label, value, dec]) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `<div class="label">${label}</div><div class="value">${Number(value).toFixed(dec)}</div>`;
+        cardWrap.appendChild(div);
+      });
+
+      const metrics = Object.entries(s.metrics).map(([name, v]) => ({ name, ...v }));
+      metrics.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `<div class="label">${m.name} mean</div><div class="value">${fmt(m.mean)}</div><div class="label">median ${fmt(m.median)} · range ${fmt(m.min)} to ${fmt(m.max)}</div>`;
+        cardWrap.appendChild(div);
+      });
+
+      Plotly.newPlot('metricBoxplots', metrics.map(m => ({
+        y: [m.min, m.p25, m.median, m.p75, m.max],
+        type: 'box',
+        name: m.name,
+        boxpoints: false,
+        marker: { color: '#6ee7ff' }
+      })), {
+        paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#e8ecf8'},
+        yaxis:{gridcolor:'#243055'}, margin:{t:20,l:40,r:10,b:40}
+      }, {displayModeBar:false, responsive:true});
+
+      Plotly.newPlot('batchBars', [{
+        x: data.batchSummary.map(d => `B${d.batch}`),
+        y: data.batchSummary.map(d => d.count),
+        type:'bar',
+        marker:{color:'#a78bfa'}
+      }], {
+        paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#e8ecf8'},
+        yaxis:{gridcolor:'#243055'}, margin:{t:20,l:40,r:10,b:80}
+      }, {displayModeBar:false, responsive:true});
+
+      const top50 = data.topPeptides.slice(0, 50);
+      Plotly.newPlot('topScatter', [{
+        x: top50.map(d => d.Order),
+        y: top50.map(d => d.AVG),
+        text: top50.map(d => `${d.Sequence}<br>Batch ${d['Test Batch']}<br>AVG ${fmt(d.AVG,4)}`),
+        mode:'markers',
+        marker:{size: top50.map(d => 8 + (d.DBAASP || 0)*10), color: top50.map(d => d['Test Batch']), colorscale:'Viridis', showscale:true},
+        type:'scatter'
+      }], {
+        paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#e8ecf8'},
+        xaxis:{title:'Order',gridcolor:'#243055'}, yaxis:{title:'AVG',gridcolor:'#243055'}, margin:{t:20,l:50,r:10,b:50}
+      }, {displayModeBar:false, responsive:true});
+
+      const heatCols = ['iAMP','AMPScan','Antibp2','SVM','RF','ANN','DA','DBAASP','AVG'];
+      Plotly.newPlot('leaderHeatmap', [{
+        z: top50.map(r => heatCols.map(c => r[c])),
+        x: heatCols,
+        y: top50.map(r => `${r.Rank}. ${r.Sequence}`),
+        type:'heatmap',
+        colorscale:'Viridis'
+      }], {
+        paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#e8ecf8'},
+        margin:{t:20,l:150,r:10,b:80}
+      }, {displayModeBar:false, responsive:true});
+
+      const cols = ['Rank','Order','Test Batch','Sequence','iAMP','AMPScan','Antibp2','SVM','RF','ANN','DA','DBAASP','AVG'];
+      const table = document.getElementById('leadersTable');
+      table.innerHTML = `<thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>${data.topPeptides.map(r => `<tr>${cols.map(c => `<td>${typeof r[c] === 'number' ? fmt(r[c], c === 'Sequence' ? 0 : 4) : (r[c] ?? '—')}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    });
+  </script>
+</body>
+</html>
