@@ -27,11 +27,13 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
   const sections=data.dashboardMeta?.sections||[];
   document.getElementById('nav').innerHTML=sections.map(s=>`<a href="./${s.page||'index.html'}">${s.label}</a>`).join('');
   const wrap=document.getElementById('charts');
-  (data.predictionPlots?.charts||[]).forEach((chart, idx)=>{
+  const r2Map = Object.fromEntries((data.currentAnalysis?.results || []).map(r => [r.target, r.r2]));
+  const charts = [...(data.predictionPlots?.charts || [])].sort((a, b) => (r2Map[b.target] || -Infinity) - (r2Map[a.target] || -Infinity));
+  charts.forEach((chart, idx)=>{
     const panel=document.createElement('div');
     panel.className='panel span-6';
     const id=`plot_${idx}`;
-    panel.innerHTML=`<h2>${chart.target}</h2><p>${chart.feature_set} + ${chart.model}</p><div id="${id}" style="height:420px"></div>`;
+    panel.innerHTML=`<h2>${chart.target}</h2><p>R² ${fmt(r2Map[chart.target])} · ${chart.feature_set} + ${chart.model}</p><div id="${id}" style="height:420px"></div>`;
     wrap.appendChild(panel);
     const xs=chart.points.map(p=>p.actual);
     const ys=chart.points.map(p=>p.predicted);
