@@ -30,6 +30,15 @@
     <h2>Descriptor table for top 10 peptides</h2>
     <div class="table-wrap"><table id="topDescriptorTable"></table></div>
   </div>
+  <div class="panel">
+    <h2>Weighted methods exploration</h2>
+    <p id="weightedSummary"></p>
+    <div class="table-wrap"><table id="weightedWeightsTable"></table></div>
+    <br>
+    <div class="table-wrap"><table id="weightedResultsTable"></table></div>
+    <br>
+    <div class="table-wrap"><table id="weightedTopTable"></table></div>
+  </div>
 </div>
 <script>
 const fmt=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
@@ -46,6 +55,13 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
   const topRows=a.topPeptideDescriptors||[];
   const cols=['Rank','Order','Test Batch','Sequence','AVG','length','hydrophobic_frac','polar_frac','positive_frac','negative_frac','net_charge_proxy','aromatic_frac','helix_frac','sheet_frac','turn_frac','gly_pro_frac','unique_aas','entropy','longest_hydrophobic_run','longest_positive_run'];
   document.getElementById('topDescriptorTable').innerHTML=`<thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${topRows.map(r=>`<tr>${cols.map(c=>`<td>${typeof r[c]==='number'?fmt(r[c]):r[c]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+  const w=data.weightedMethodsAnalysis||{};
+  document.getElementById('weightedSummary').innerHTML=`Explored weighted consensus targets built from the original method columns. PCA consensus explained variance ratio: <b>${fmt(w.pca_explained_variance_ratio)}</b>.`;
+  const methodCols=['method','weighted_r2_score','weighted_inv_rmse_score'];
+  document.getElementById('weightedWeightsTable').innerHTML=`<thead><tr>${methodCols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${(w.methods||[]).map(m=>`<tr><td>${m}</td><td>${fmt(w.weights?.weighted_r2_score?.[m])}</td><td>${fmt(w.weights?.weighted_inv_rmse_score?.[m])}</td></tr>`).join('')}</tbody>`;
+  document.getElementById('weightedResultsTable').innerHTML=`<thead><tr><th>target</th><th>best model</th><th>R²</th><th>MAE</th><th>RMSE</th><th>all models</th></tr></thead><tbody>${(w.results||[]).map(r=>`<tr><td>${r.target}</td><td>${r.best_model}</td><td>${fmt(r.r2)}</td><td>${fmt(r.mae)}</td><td>${fmt(r.rmse)}</td><td>${Object.entries(r.all_models||{}).map(([k,v])=>`${k}: R² ${fmt(v.r2)}`).join('<br>')}</td></tr>`).join('')}</tbody>`;
+  const topWeightedCols=['Sequence','AVG','weighted_r2_score','weighted_inv_rmse_score','pca_consensus_score'];
+  document.getElementById('weightedTopTable').innerHTML=`<thead><tr>${topWeightedCols.concat(w.methods||[]).map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${(w.topRows||[]).map(r=>`<tr>${topWeightedCols.concat(w.methods||[]).map(c=>`<td>${typeof r[c]==='number'?fmt(r[c]):r[c]}</td>`).join('')}</tr>`).join('')}</tbody>`;
 });
 </script>
 </body>
