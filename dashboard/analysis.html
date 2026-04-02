@@ -25,6 +25,10 @@
     <h2>Per-target analysis details</h2>
     <div class="table-wrap"><table id="analysisTable"></table></div>
   </div>
+  <div class="panel">
+    <h2>Descriptor table for top 10 peptides</h2>
+    <div class="table-wrap"><table id="topDescriptorTable"></table></div>
+  </div>
 </div>
 <script>
 const fmt=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
@@ -36,6 +40,9 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
   document.getElementById('summary').textContent=a.summary;
   document.getElementById('descriptorList').innerHTML=Object.entries(a.descriptorSets).map(([k,v])=>`<li><code>${k}</code> — ${v}</li>`).join('');
   document.getElementById('analysisTable').innerHTML=`<thead><tr><th>target</th><th>best setup</th><th>metrics</th><th>leaderboard</th><th>example predictions</th></tr></thead><tbody>${a.results.map(r=>`<tr><td>${r.target}</td><td>${r.best_feature_set} + ${r.best_model}</td><td>R² ${fmt(r.r2)}<br>MAE ${fmt(r.mae)}<br>RMSE ${fmt(r.rmse)}<br>Δ vs v1 ${fmt(r.delta_vs_v1)}</td><td>${r.leaderboard.map(x=>`${x.feature_set} + ${x.model}: R² ${fmt(x.r2)}`).join('<br>')}</td><td>${r.examples.map(ex=>`${ex.Sequence}<br>${ex.feature_set} + ${ex.model}<br>actual ${fmt(ex.actual)} · pred ${fmt(ex.predicted)}`).join('<hr style="border-color:#243055">')}</td></tr>`).join('')}</tbody>`;
+  const topRows=a.topPeptideDescriptors||[];
+  const cols=['Rank','Order','Test Batch','Sequence','AVG','length','hydrophobic_frac','polar_frac','positive_frac','negative_frac','net_charge_proxy','aromatic_frac','helix_frac','sheet_frac','turn_frac','gly_pro_frac','unique_aas','entropy','longest_hydrophobic_run','longest_positive_run'];
+  document.getElementById('topDescriptorTable').innerHTML=`<thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${topRows.map(r=>`<tr>${cols.map(c=>`<td>${typeof r[c]==='number'?fmt(r[c]):r[c]}</td>`).join('')}</tr>`).join('')}</tbody>`;
 });
 </script>
 </body>
