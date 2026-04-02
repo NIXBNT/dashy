@@ -31,6 +31,7 @@
     .table-wrap { max-height:560px; overflow:auto; }
     .footer { margin-top:16px; font-size:12px; color:var(--muted); }
     .section-title { margin:24px 0 12px; color:var(--accent); letter-spacing:.04em; text-transform:uppercase; font-size:12px; }
+    .page-links a { display:inline-block; margin:6px 8px 0 0; padding:8px 12px; border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); }
     a { color: var(--accent); }
     @media (max-width: 900px){ .card,.span-6,.span-8,.span-4,.span-12 { grid-column:span 12; } }
   </style>
@@ -44,6 +45,7 @@
       <p>Live view of the master spreadsheet. This is the starting analysis surface — we can keep layering new analysis onto this dashboard as the repo evolves.</p>
       <p><strong>Source:</strong> <code>All_PEPTIDE_Master.xlsx</code> · <span id="generatedFrom"></span></p>
       <p id="updatePolicy"></p>
+      <div class="page-links" id="pageLinks"></div>
     </section>
 
     <div class="section-title" id="data">Master Data</div>
@@ -79,6 +81,11 @@
       const meta = data.dashboardMeta || {};
       document.getElementById('updatePolicy').textContent = meta.updatePolicy || '';
       document.getElementById('topnav').innerHTML = (meta.sections || []).map(s => {
+        const page = s.page || 'index.html';
+        const href = page === 'index.html' && s.id === 'leaders' ? 'index.html#leaders' : page;
+        return `<a href="${href}">${s.label}</a>`;
+      }).join('');
+      document.getElementById('pageLinks').innerHTML = (meta.sections || []).map(s => {
         const page = s.page || 'index.html';
         const href = page === 'index.html' && s.id === 'leaders' ? 'index.html#leaders' : page;
         return `<a href="${href}">${s.label}</a>`;
