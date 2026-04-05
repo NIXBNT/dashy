@@ -144051,5 +144051,212 @@
         "bundle_path": "models_machine_v2_descriptors/DBAASP_best_bundle.joblib"
       }
     ]
+  },
+  "descriptorOnlyWeightedTargets": {
+    "title": "Weighted targets with machine-v2 descriptor-only models",
+    "summary": "Applies the weighted-target framework to descriptor-only models derived from machine-v2 semantics, without using the blended v3 feature stack.",
+    "weights": {
+      "weighted_r2_score": {
+        "iAMP": 0.1575309773192073,
+        "AMPScan": 0.12194315139435592,
+        "Antibp2": 0.13405689300564513,
+        "SVM": 0.1234905540079494,
+        "RF": 0.15688778373288048,
+        "ANN": 0.11847335852702072,
+        "DA": 0.14929919875367526,
+        "DBAASP": 0.038318083259265716
+      },
+      "weighted_inv_rmse_score": {
+        "iAMP": 0.20402134209867218,
+        "AMPScan": 0.08220951744639587,
+        "Antibp2": 0.13146543068909045,
+        "SVM": 0.10064952503140158,
+        "RF": 0.23177301835249492,
+        "ANN": 0.06673656251521343,
+        "DA": 0.13266549646212325,
+        "DBAASP": 0.050479107404608335
+      }
+    },
+    "pca_explained_variance_ratio": 0.5535171266095187,
+    "parameters": {
+      "descriptor_length_lower": 2,
+      "descriptor_length_upper": 8,
+      "descriptor_residue_max": 4,
+      "descriptor_sliding_min": 12,
+      "descriptor_sliding_max": 12,
+      "window_combo_count": 406,
+      "hash_features": 32768,
+      "tree_components": 64
+    },
+    "results": [
+      {
+        "target": "weighted_inv_rmse_score",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.7679354297604755,
+        "mae": 0.09066539928578152,
+        "rmse": 0.11641616124478756,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.7679354297604755,
+            "mae": 0.09066539928578152,
+            "rmse": 0.11641616124478756
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.694555699514379,
+            "mae": 0.10624392628952326,
+            "rmse": 0.13355952535303386
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "DNFHSFNFEKIHIKL",
+            "actual": 0.1902577267805678,
+            "predicted": 0.1902715766221159,
+            "abs_error": 1.384984154806368e-05
+          },
+          {
+            "Sequence": "MMDILDGSVESEFHY",
+            "actual": -0.0210297008723103,
+            "predicted": -0.0210819621083028,
+            "abs_error": 5.226123599250121e-05
+          },
+          {
+            "Sequence": "DLVGVVKGEEHDIKM",
+            "actual": 0.102562703353197,
+            "predicted": 0.1026283492676563,
+            "abs_error": 6.564591445930301e-05
+          },
+          {
+            "Sequence": "HLHSTRKTHHKFWYN",
+            "actual": 0.3297680080851047,
+            "predicted": 0.3296619450229194,
+            "abs_error": 0.0001060630621853
+          },
+          {
+            "Sequence": "SGWAYWGTQWMFSQA",
+            "actual": 0.1623668940080932,
+            "predicted": 0.1625423067952882,
+            "abs_error": 0.0001754127871949
+          }
+        ]
+      },
+      {
+        "target": "pca_consensus_score",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.76161613274438,
+        "mae": 0.07408379361917287,
+        "rmse": 0.09526774900611076,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.76161613274438,
+            "mae": 0.07408379361917287,
+            "rmse": 0.09526774900611076
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.6887491261394727,
+            "mae": 0.08659691792313884,
+            "rmse": 0.10885860459742862
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "WASEWQMSGQYEWAS",
+            "actual": 0.2561199177742485,
+            "predicted": 0.2561052790603452,
+            "abs_error": 1.4638713903281086e-05
+          },
+          {
+            "Sequence": "LRRLMKFLMRVGFVM",
+            "actual": 0.6165094822695844,
+            "predicted": 0.6164803502010534,
+            "abs_error": 2.9132068530945965e-05
+          },
+          {
+            "Sequence": "HGKILHGVIMLEGGK",
+            "actual": 0.4375595036470851,
+            "predicted": 0.4376247476739145,
+            "abs_error": 6.52440268293919e-05
+          },
+          {
+            "Sequence": "YAIMAYWAKAGRTST",
+            "actual": 0.3824997190824362,
+            "predicted": 0.3825685877526922,
+            "abs_error": 6.886867025596155e-05
+          },
+          {
+            "Sequence": "QIIFNNNVVTIIILT",
+            "actual": 0.5022867612709235,
+            "predicted": 0.5021974124983334,
+            "abs_error": 8.934877259014762e-05
+          }
+        ]
+      },
+      {
+        "target": "weighted_r2_score",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.7600935431120205,
+        "mae": 0.09769012978162711,
+        "rmse": 0.12579921715238776,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.7600935431120205,
+            "mae": 0.09769012978162711,
+            "rmse": 0.12579921715238776
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.6868279471263268,
+            "mae": 0.11431477271959635,
+            "rmse": 0.14373034554674904
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "FGQPVFWWWGQFKFQ",
+            "actual": 0.5399976224079428,
+            "predicted": 0.5399875847189542,
+            "abs_error": 1.0037688988551174e-05
+          },
+          {
+            "Sequence": "HFWLLWQPSYTFPTR",
+            "actual": 0.0417489513607914,
+            "predicted": 0.041711739369146,
+            "abs_error": 3.721199164543471e-05
+          },
+          {
+            "Sequence": "RLKFVVLKGKVKFFF",
+            "actual": 0.7154149346333223,
+            "predicted": 0.7155230256847912,
+            "abs_error": 0.0001080910514689
+          },
+          {
+            "Sequence": "EIAFGQMEMGRQQFR",
+            "actual": 0.1196983459568755,
+            "predicted": 0.1198669022194851,
+            "abs_error": 0.0001685562626096
+          },
+          {
+            "Sequence": "MVGPWIIIPRPFPGG",
+            "actual": 0.3564578454503351,
+            "predicted": 0.3566610247961728,
+            "abs_error": 0.0002031793458377
+          }
+        ]
+      }
+    ]
   }
 }
