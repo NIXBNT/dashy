@@ -4406,7 +4406,7 @@
   "dashboardMeta": {
     "sections": [
       {
-        "id": "overview",
+        "id": "home",
         "label": "Overview",
         "page": "index.html"
       },
@@ -4421,13 +4421,13 @@
         "page": "analysis.html"
       },
       {
-        "id": "leaders",
-        "label": "Top Peptides",
-        "page": "index.html#leaders"
+        "id": "descriptor-only",
+        "label": "Descriptor-only",
+        "page": "descriptor-only.html"
       },
       {
         "id": "predictions",
-        "label": "Predicted vs Actual",
+        "label": "Predictions",
         "page": "predictions.html"
       }
     ],
@@ -143453,6 +143453,602 @@
             "Sequence": "HIIKVANHIVTIIFA"
           }
         ]
+      }
+    ]
+  },
+  "descriptorOnlyAnalysis": {
+    "title": "Descriptor-only analysis via the-machine-v2",
+    "summary": "Full-dataset descriptor-only models built from adapted the-machine-v2 descriptor generation semantics. Peptides were converted into stripped sliding-window descriptors (12-mer windows, span 2-8, up to 4 explicit residues), hashed for tractable full-dataset training, then fit with one selected best model per output.",
+    "descriptorSets": {
+      "machine_v2_descriptor_hash": "Hashed sparse representation of the-machine-v2 stripped descriptors derived from 12-aa sliding windows.",
+      "machine_v2_descriptor_hash_svd": "TruncatedSVD-reduced embedding of the same hashed descriptor space for tree models."
+    },
+    "parameters": {
+      "descriptor_length_lower": 2,
+      "descriptor_length_upper": 8,
+      "descriptor_residue_max": 4,
+      "descriptor_sliding_min": 12,
+      "descriptor_sliding_max": 12,
+      "window_combo_count": 406,
+      "hash_features": 32768,
+      "tree_components": 64
+    },
+    "summaryStats": {
+      "bestTargetByR2": "AVG",
+      "bestR2": 0.737399643589002,
+      "worstTargetByR2": "DBAASP",
+      "worstR2": 0.20119430759647783,
+      "targetsAboveV1": 1,
+      "targetsAboveV2": 1,
+      "targetsAboveV3": 0
+    },
+    "results": [
+      {
+        "target": "AVG",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.737399643589002,
+        "mae": 0.10027641459563649,
+        "rmse": 0.13077305206238518,
+        "v1_r2": 0.8008332710278494,
+        "v2_r2": 0.7892460036432635,
+        "v3_r2": 0.8646721244003385,
+        "delta_vs_v1": -0.0634336274388474,
+        "delta_vs_v2": -0.051846360054261464,
+        "delta_vs_v3": -0.12727248081133646,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.737399643589002,
+            "mae": 0.10027641459563649,
+            "rmse": 0.13077305206238518
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.6675283799664877,
+            "mae": 0.11731196555493519,
+            "rmse": 0.1471458079271495
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "FIKFNVIIFWMKKFI",
+            "actual": 0.6210125,
+            "predicted": 0.6209792500000002,
+            "abs_error": 3.324999999976264e-05
+          },
+          {
+            "Sequence": "KIKAKWIMRSYKTRG",
+            "actual": 0.557525,
+            "predicted": 0.5575856875,
+            "abs_error": 6.068749999998957e-05
+          },
+          {
+            "Sequence": "MMWFGFQTSGYWWTG",
+            "actual": 0.16265,
+            "predicted": 0.1627379999999999,
+            "abs_error": 8.799999999997699e-05
+          },
+          {
+            "Sequence": "TRRFVVRATTYDYAT",
+            "actual": 0.0531625,
+            "predicted": 0.0530660624999999,
+            "abs_error": 9.643750000001144e-05
+          },
+          {
+            "Sequence": "AFPDEMYKMQHGGYA",
+            "actual": 0.0737625,
+            "predicted": 0.0735702499999999,
+            "abs_error": 0.00019225
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/AVG_best_bundle.joblib"
+      },
+      {
+        "target": "RF",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.7019052863880414,
+        "mae": 0.09823211860236221,
+        "rmse": 0.12918169685718442,
+        "v1_r2": 0.7877741455209504,
+        "v2_r2": 0.7484537200446281,
+        "v3_r2": 0.8785569026324631,
+        "delta_vs_v1": -0.08586885913290898,
+        "delta_vs_v2": -0.046548433656586674,
+        "delta_vs_v3": -0.17665161624442172,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.7019052863880414,
+            "mae": 0.09823211860236221,
+            "rmse": 0.12918169685718442
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.5841211192333373,
+            "mae": 0.11983753720028308,
+            "rmse": 0.15258339752618671
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "GQVFHFHHAQFHAWH",
+            "actual": 0.222,
+            "predicted": 0.222,
+            "abs_error": 2.775557561562892e-17
+          },
+          {
+            "Sequence": "NLKFSGPAQRFFVDM",
+            "actual": 0.092,
+            "predicted": 0.091955,
+            "abs_error": 4.4999999999975615e-05
+          },
+          {
+            "Sequence": "YHYKYMWIHFYNSWN",
+            "actual": 0.231,
+            "predicted": 0.2309449999999999,
+            "abs_error": 5.500000000008276e-05
+          },
+          {
+            "Sequence": "VGNELKLTWDRWLWV",
+            "actual": 0.307,
+            "predicted": 0.3070625000000001,
+            "abs_error": 6.25000000001319e-05
+          },
+          {
+            "Sequence": "IGNWVGGAGVWMFHH",
+            "actual": 0.259,
+            "predicted": 0.2588975,
+            "abs_error": 0.0001024999999999
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/RF_best_bundle.joblib"
+      },
+      {
+        "target": "iAMP",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.6998744009015869,
+        "mae": 0.11640601049868766,
+        "rmse": 0.14948594049297376,
+        "v1_r2": 0.7728392746055412,
+        "v2_r2": 0.745314436880646,
+        "v3_r2": 0.8821587265065162,
+        "delta_vs_v1": -0.07296487370395432,
+        "delta_vs_v2": -0.0454400359790591,
+        "delta_vs_v3": -0.18228432560492924,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.6998744009015869,
+            "mae": 0.11640601049868766,
+            "rmse": 0.14948594049297376
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.5503012535333636,
+            "mae": 0.14556080812304187,
+            "rmse": 0.18298254626179836
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "DMSTYKISLIHKAKW",
+            "actual": 0.493,
+            "predicted": 0.4929850000000003,
+            "abs_error": 1.499999999965418e-05
+          },
+          {
+            "Sequence": "YNRWVCFHNCHNWRY",
+            "actual": 0.82,
+            "predicted": 0.8200449999999998,
+            "abs_error": 4.499999999985072e-05
+          },
+          {
+            "Sequence": "RYIHRINIKFRKNFK",
+            "actual": 0.79,
+            "predicted": 0.7899399999999998,
+            "abs_error": 6.000000000028205e-05
+          },
+          {
+            "Sequence": "RLIPYRFIKWFIIPG",
+            "actual": 0.6829999999999999,
+            "predicted": 0.6828600000000005,
+            "abs_error": 0.0001399999999994
+          },
+          {
+            "Sequence": "YNRGRMNRRYKHKHK",
+            "actual": 0.7,
+            "predicted": 0.7001500000000002,
+            "abs_error": 0.0001500000000002
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/iAMP_best_bundle.joblib"
+      },
+      {
+        "target": "DA",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.6314715621636717,
+        "mae": 0.1622268585958005,
+        "rmse": 0.21597835500397888,
+        "v1_r2": 0.7018765079663665,
+        "v2_r2": 0.6949469309885496,
+        "v3_r2": 0.8360615371166553,
+        "delta_vs_v1": -0.07040494580269474,
+        "delta_vs_v2": -0.06347536882487792,
+        "delta_vs_v3": -0.2045899749529836,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.6314715621636717,
+            "mae": 0.1622268585958005,
+            "rmse": 0.21597835500397888
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.4742055507432955,
+            "mae": 0.20668942142850258,
+            "rmse": 0.25797803143648906
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "IVHIPWIMGVPGMFG",
+            "actual": 0.242,
+            "predicted": 0.2420750000000001,
+            "abs_error": 7.500000000018603e-05
+          },
+          {
+            "Sequence": "SRGMEWWATWNSMQT",
+            "actual": 0.023,
+            "predicted": 0.0228549999999999,
+            "abs_error": 0.000145
+          },
+          {
+            "Sequence": "QWMYKKGNPRKGRHL",
+            "actual": 0.44,
+            "predicted": 0.4398549999999999,
+            "abs_error": 0.000145
+          },
+          {
+            "Sequence": "GKTHDENPYGHTMTG",
+            "actual": 0.012,
+            "predicted": 0.0121549999999999,
+            "abs_error": 0.0001549999999999
+          },
+          {
+            "Sequence": "YATMFRQSIAWVTRR",
+            "actual": 0.052,
+            "predicted": 0.0517149999999999,
+            "abs_error": 0.000285
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/DA_best_bundle.joblib"
+      },
+      {
+        "target": "AMPScan",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.579251536883232,
+        "mae": 0.20447105872703417,
+        "rmse": 0.26775883367343145,
+        "v1_r2": 0.617239194807033,
+        "v2_r2": 0.6147816844701812,
+        "v3_r2": 0.682870232705147,
+        "delta_vs_v1": -0.03798765792380099,
+        "delta_vs_v2": -0.03553014758694917,
+        "delta_vs_v3": -0.10361869582191496,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.579251536883232,
+            "mae": 0.20447105872703417,
+            "rmse": 0.26775883367343145
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.5205119371176233,
+            "mae": 0.22940699245785845,
+            "rmse": 0.2858389700304197
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "TEGDELNDKRTSLFY",
+            "actual": 0.0065,
+            "predicted": 0.0064929999999999,
+            "abs_error": 7.000000000008735e-06
+          },
+          {
+            "Sequence": "TKKKILTFGILKLTT",
+            "actual": 0.6909,
+            "predicted": 0.6908520000000002,
+            "abs_error": 4.799999999971494e-05
+          },
+          {
+            "Sequence": "YQIPHRGRLKHQKYR",
+            "actual": 0.3495,
+            "predicted": 0.3495525000000001,
+            "abs_error": 5.2500000000177405e-05
+          },
+          {
+            "Sequence": "MKYYAMTTKRWTGRT",
+            "actual": 0.2744,
+            "predicted": 0.274453,
+            "abs_error": 5.300000000002525e-05
+          },
+          {
+            "Sequence": "AKVGGITHFIQNPRP",
+            "actual": 0.1381,
+            "predicted": 0.1378714999999999,
+            "abs_error": 0.0002285
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/AMPScan_best_bundle.joblib"
+      },
+      {
+        "target": "ANN",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.5304303307183877,
+        "mae": 0.23714566929133857,
+        "rmse": 0.3382422818148983,
+        "v1_r2": 0.5782095425634419,
+        "v2_r2": 0.5786655923257559,
+        "v3_r2": 0.663439717455518,
+        "delta_vs_v1": -0.04777921184505418,
+        "delta_vs_v2": -0.04823526160736813,
+        "delta_vs_v3": -0.13300938673713025,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.5304303307183877,
+            "mae": 0.23714566929133857,
+            "rmse": 0.3382422818148983
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.2941963053136434,
+            "mae": 0.33444927163320204,
+            "rmse": 0.41468644597138415
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "HIEWQVSGAQEDSEH",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "LTQDRAPYDHIAFWN",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "TRERAPIDTQFYFYV",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "DTKEDHVSYFWEIGA",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "LQFDLMPDVRAFMDY",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/ANN_best_bundle.joblib"
+      },
+      {
+        "target": "Antibp2",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.5242986237774692,
+        "mae": 0.13492747047244094,
+        "rmse": 0.20080425415691872,
+        "v1_r2": 0.5921853299330764,
+        "v2_r2": 0.5249032685420298,
+        "v3_r2": 0.7507060517605331,
+        "delta_vs_v1": -0.06788670615560721,
+        "delta_vs_v2": -0.0006046447645606801,
+        "delta_vs_v3": -0.2264074279830639,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.5242986237774692,
+            "mae": 0.13492747047244094,
+            "rmse": 0.20080425415691872
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.209892980181278,
+            "mae": 0.1955105594872557,
+            "rmse": 0.2587907001817882
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "AHPGYLHHPVHWWMH",
+            "actual": -0.181,
+            "predicted": -0.1810049999999999,
+            "abs_error": 4.999999999949489e-06
+          },
+          {
+            "Sequence": "FGKWWHWFIRRPIWH",
+            "actual": -0.117,
+            "predicted": -0.1169,
+            "abs_error": 9.999999999997512e-05
+          },
+          {
+            "Sequence": "MRKKNAIGMYRHNMG",
+            "actual": -0.116,
+            "predicted": -0.115895,
+            "abs_error": 0.0001049999999999
+          },
+          {
+            "Sequence": "AIFLKLPKDNDQPVK",
+            "actual": -0.183,
+            "predicted": -0.182875,
+            "abs_error": 0.0001249999999999
+          },
+          {
+            "Sequence": "WVFGWALRLRGRRWL",
+            "actual": -0.232,
+            "predicted": -0.232145,
+            "abs_error": 0.000145
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/Antibp2_best_bundle.joblib"
+      },
+      {
+        "target": "SVM",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.5003882840423153,
+        "mae": 0.18860925032808398,
+        "rmse": 0.24164352036717487,
+        "v1_r2": 0.5597800711676628,
+        "v2_r2": 0.5840713264531028,
+        "v3_r2": 0.6915355424888503,
+        "delta_vs_v1": -0.05939178712534754,
+        "delta_vs_v2": -0.0836830424107875,
+        "delta_vs_v3": -0.19114725844653502,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.5003882840423153,
+            "mae": 0.18860925032808398,
+            "rmse": 0.24164352036717487
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": 0.30997037701628904,
+            "mae": 0.22482423083981715,
+            "rmse": 0.28398324324087343
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "PKIGLKGKEAKWMAM",
+            "actual": 0.838,
+            "predicted": 0.8383949999999998,
+            "abs_error": 0.0003949999999998
+          },
+          {
+            "Sequence": "KRKHMHYKTAHMEKK",
+            "actual": 0.5670000000000001,
+            "predicted": 0.5675100000000001,
+            "abs_error": 0.00051
+          },
+          {
+            "Sequence": "IKRKVISFKDNYPGY",
+            "actual": 0.331,
+            "predicted": 0.3315149999999999,
+            "abs_error": 0.0005149999999998
+          },
+          {
+            "Sequence": "FHKQRKLHGGLLGQQ",
+            "actual": 0.665,
+            "predicted": 0.6644699999999999,
+            "abs_error": 0.0005300000000001
+          },
+          {
+            "Sequence": "PTVWAEGDGISQGSK",
+            "actual": 0.104,
+            "predicted": 0.104805,
+            "abs_error": 0.000805
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/SVM_best_bundle.joblib"
+      },
+      {
+        "target": "DBAASP",
+        "best_feature_set": "machine_v2_descriptor_hash_svd",
+        "best_model": "extra_trees",
+        "r2": 0.20119430759647783,
+        "mae": 0.282490157480315,
+        "rmse": 0.3817951708618619,
+        "v1_r2": 0.16029367376989623,
+        "v2_r2": 0.14853417548882542,
+        "v3_r2": 0.21457767929459193,
+        "delta_vs_v1": 0.0409006338265816,
+        "delta_vs_v2": 0.05266013210765241,
+        "delta_vs_v3": -0.0133833716981141,
+        "leaderboard": [
+          {
+            "feature_set": "machine_v2_descriptor_hash_svd",
+            "model": "extra_trees",
+            "r2": 0.20119430759647783,
+            "mae": 0.282490157480315,
+            "rmse": 0.3817951708618619
+          },
+          {
+            "feature_set": "machine_v2_descriptor_hash",
+            "model": "ridge",
+            "r2": -0.0557923760642931,
+            "mae": 0.3468139410832311,
+            "rmse": 0.43893389228755153
+          }
+        ],
+        "examples": [
+          {
+            "Sequence": "HIEWQVSGAQEDSEH",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "LTQDRAPYDHIAFWN",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "TRERAPIDTQFYFYV",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "DTKEDHVSYFWEIGA",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          },
+          {
+            "Sequence": "LQFDLMPDVRAFMDY",
+            "actual": 0.0,
+            "predicted": 0.0,
+            "abs_error": 0.0
+          }
+        ],
+        "bundle_path": "models_machine_v2_descriptors/DBAASP_best_bundle.joblib"
       }
     ]
   }

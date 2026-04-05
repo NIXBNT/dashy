@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Peptide Dashboard · Descriptor-only</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root { --bg:#0b1020; --panel:#121933; --text:#e8ecf8; --muted:#98a2c3; --border:#243055; }
+    * { box-sizing:border-box; } body { margin:0; font-family:Inter,system-ui,sans-serif; background:linear-gradient(180deg,#0b1020,#0f1731); color:var(--text); }
+    .wrap{max-width:1400px;margin:0 auto;padding:24px;} .panel{background:rgba(18,25,51,.88);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px;} .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;} .span-6{grid-column:span 6;} .span-12{grid-column:span 12;} .nav{position:sticky;top:0;z-index:10;background:rgba(11,16,32,.88);border-bottom:1px solid var(--border);margin:-24px -24px 20px;padding:14px 24px;} .nav a{display:inline-block;margin-right:12px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;text-decoration:none;color:var(--text);} .table-wrap{max-height:720px;overflow:auto;} table{width:100%;border-collapse:collapse;} th,td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;} th{position:sticky;top:0;background:var(--panel);} p,li{color:var(--muted)} code{color:#fff;} @media(max-width:900px){.span-6,.span-12{grid-column:span 12;}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" id="nav"></nav>
+  <div class="panel">
+    <h1 id="title"></h1>
+    <p id="summary"></p>
+    <p id="summaryStats"></p>
+  </div>
+  <div class="grid">
+    <div class="panel span-6"><h2>Descriptor-only R² by target</h2><div id="r2bars" style="height:420px"></div></div>
+    <div class="panel span-6"><h2>Delta vs prior iterations</h2><div id="deltabars" style="height:420px"></div></div>
+    <div class="panel span-12"><h2>Descriptor configuration</h2><ul id="descriptorList"></ul><p id="paramText"></p></div>
+    <div class="panel span-12"><h2>Per-target descriptor-only models</h2><div class="table-wrap"><table id="resultTable"></table></div></div>
+  </div>
+</div>
+<script>
+const fmt=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
+fetch('./data.json').then(r=>r.json()).then(data=>{
+  const sections=data.dashboardMeta?.sections||[];
+  document.getElementById('nav').innerHTML=sections.map(s=>`<a href="./${s.page||'index.html'}">${s.label}</a>`).join('');
+  const a=data.descriptorOnlyAnalysis;
+  document.getElementById('title').textContent=a.title;
+  document.getElementById('summary').textContent=a.summary;
+  const s=a.summaryStats||{};
+  document.getElementById('summaryStats').innerHTML=`Best target: <b>${s.bestTargetByR2}</b> (R² ${fmt(s.bestR2)}) · Worst target: <b>${s.worstTargetByR2}</b> (R² ${fmt(s.worstR2)}) · Above v1/v2/v3 on ${s.targetsAboveV1}/${s.targetsAboveV2}/${s.targetsAboveV3} targets`;
+  document.getElementById('descriptorList').innerHTML=Object.entries(a.descriptorSets).map(([k,v])=>`<li><code>${k}</code> — ${v}</li>`).join('');
+  const p=a.parameters||{};
+  document.getElementById('paramText').innerHTML=`window combos per 12-mer: <b>${p.window_combo_count}</b> · hashed features: <b>${p.hash_features}</b> · SVD components for tree models: <b>${p.tree_components}</b> · descriptor span ${p.descriptor_length_lower}-${p.descriptor_length_upper} with at most ${p.descriptor_residue_max} explicit residues`;
+  const rows=a.results||[];
+  Plotly.newPlot('r2bars',[{x:rows.map(r=>r.target),y:rows.map(r=>r.r2),type:'bar',marker:{color:rows.map(r=>r.r2),colorscale:'Viridis'}}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},yaxis:{gridcolor:'#243055'},margin:{t:20,l:50,r:10,b:60}},{displayModeBar:false,responsive:true});
+  Plotly.newPlot('deltabars',[
+    {x:rows.map(r=>r.target),y:rows.map(r=>r.delta_vs_v1),name:'vs v1',type:'bar'},
+    {x:rows.map(r=>r.target),y:rows.map(r=>r.delta_vs_v2),name:'vs v2',type:'bar'},
+    {x:rows.map(r=>r.target),y:rows.map(r=>r.delta_vs_v3),name:'vs v3',type:'bar'}
+  ],{barmode:'group',paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},yaxis:{gridcolor:'#243055'},margin:{t:20,l:50,r:10,b:60}},{displayModeBar:false,responsive:true});
+  document.getElementById('resultTable').innerHTML=`<thead><tr><th>target</th><th>best setup</th><th>descriptor-only metrics</th><th>comparison</th><th>leaderboard</th><th>closest holdout examples</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.target}</td><td>${r.best_feature_set}<br>${r.best_model}<br><code>${r.bundle_path}</code></td><td>R² ${fmt(r.r2)}<br>MAE ${fmt(r.mae)}<br>RMSE ${fmt(r.rmse)}</td><td>v1 ${fmt(r.v1_r2)}<br>v2 ${fmt(r.v2_r2)}<br>v3 ${fmt(r.v3_r2)}<br>Δv1 ${fmt(r.delta_vs_v1)}<br>Δv2 ${fmt(r.delta_vs_v2)}<br>Δv3 ${fmt(r.delta_vs_v3)}</td><td>${r.leaderboard.map(x=>`${x.feature_set} + ${x.model}: R² ${fmt(x.r2)}`).join('<br>')}</td><td>${r.examples.map(ex=>`${ex.Sequence}<br>actual ${fmt(ex.actual)} · pred ${fmt(ex.predicted)} · err ${fmt(ex.abs_error)}`).join('<hr style="border-color:#243055">')}</td></tr>`).join('')}</tbody>`;
+});
+</script>
+</body>
+</html>
