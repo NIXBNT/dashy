@@ -20,6 +20,10 @@
     <p>Holdout-set predicted-vs-actual scatter plots for the current best v3 model per target. Each chart includes an x=y reference line so divergence is visually obvious.</p>
   </div>
   <div class="grid" id="charts"></div>
+  <div class="panel">
+    <h2>MIC overlay correlation summary</h2>
+    <div style="overflow:auto"><table id="corrTable" style="width:100%;border-collapse:collapse"></table></div>
+  </div>
 </div>
 <script>
 const fmt=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
@@ -44,14 +48,18 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
     const min=Math.min(...xs,...ys);
     const max=Math.max(...xs,...ys);
     Plotly.newPlot(id,[
-      {x:basePoints.map(p=>p.actual),y:basePoints.map(p=>p.predicted),text:basePoints.map(p=>p.Sequence),mode:'markers',type:'scatter',name:'All other holdout peptides',marker:{size:6,color:'#6ee7ff',opacity:0.45},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
-      {x:micPoints.map(p=>p.actual),y:micPoints.map(p=>p.predicted),text:micPoints.map(p=>`${p.Sequence}<br>best MIC any=${fmt(p.best_mic_any)} µM`),mode:'markers',type:'scatter',name:chart.highlightLabel || 'MIC-backed peptides',marker:{size:9,color:'#ff5c5c',opacity:0.95,line:{color:'#ffffff',width:1}},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
+      {x:basePoints.map(p=>p.actual),y:basePoints.map(p=>p.predicted),text:basePoints.map(p=>p.Sequence),mode:'markers',type:'scatter',name:'All other holdout peptides',marker:{size:6,color:'#6ee7ff',opacity:0.28},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
       {x:[min,max],y:[min,max],mode:'lines',type:'scatter',line:{color:'#ff7b7b',dash:'dash',width:2},hoverinfo:'skip'}
+      ,{x:micPoints.map(p=>p.actual),y:micPoints.map(p=>p.predicted),text:micPoints.map(p=>p.Sequence),customdata:micPoints.map(p=>[p.best_mic_any]),mode:'markers+text',type:'scatter',name:chart.highlightLabel || 'MIC-backed peptides',textposition:'top center',textfont:{color:'#ffffff',size:11},marker:{size:13,color:'#ff2d2d',opacity:1,line:{color:'#ffffff',width:2},symbol:'diamond'},hovertemplate:'%{text}<br>best MIC any=%{customdata[0]:.4f} µM<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'}
     ],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},
       xaxis:{title:'Actual',gridcolor:'#243055'}, yaxis:{title:'Predicted',gridcolor:'#243055'}, margin:{t:20,l:55,r:10,b:55}, legend:{orientation:'h',y:-0.2}
     },{displayModeBar:false,responsive:true});
   });
+
+  const corr = data.predictionPlots?.micCorrelationSummary || {};
+  const corrRows = Object.entries(corr);
+  document.getElementById('corrTable').innerHTML = `<thead><tr><th style="padding:8px;border-bottom:1px solid #243055;text-align:left">target</th><th style="padding:8px;border-bottom:1px solid #243055;text-align:left">overlap_count</th><th style="padding:8px;border-bottom:1px solid #243055;text-align:left">corr(pred, -log2 best MIC)</th><th style="padding:8px;border-bottom:1px solid #243055;text-align:left">corr(actual, -log2 best MIC)</th><th style="padding:8px;border-bottom:1px solid #243055;text-align:left">per-organism corr(pred, -log2 MIC)</th></tr></thead><tbody>${corrRows.map(([target, stats]) => `<tr><td style="padding:8px;border-bottom:1px solid #243055">${target}</td><td style="padding:8px;border-bottom:1px solid #243055">${stats.overlap_count ?? '—'}</td><td style="padding:8px;border-bottom:1px solid #243055">${fmt(stats.corr_pred_vs_neglog2_best_mic)}</td><td style="padding:8px;border-bottom:1px solid #243055">${fmt(stats.corr_actual_vs_neglog2_best_mic)}</td><td style="padding:8px;border-bottom:1px solid #243055">${Object.entries(stats.corr_pred_vs_neglog2_by_organism || {}).map(([k,v]) => `${k}: ${fmt(v)}`).join('<br>') || '—'}</td></tr>`).join('')}</tbody>`;
 });
 </script>
 </body>
