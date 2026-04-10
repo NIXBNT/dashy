@@ -33,18 +33,23 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
     const panel=document.createElement('div');
     panel.className='panel span-6';
     const id=`plot_${idx}`;
-    panel.innerHTML=`<h2>${chart.target}</h2><p>R² ${fmt(r2Map[chart.target])} · ${chart.feature_set} + ${chart.model}</p><div id="${id}" style="height:420px"></div>`;
+    const corr = chart.micCorrelation || {};
+    const corrText = corr.overlap_count ? `<p>MIC-backed overlap: ${corr.overlap_count} peptides · corr(pred, -log2 best MIC)) = ${fmt(corr.corr_pred_vs_neglog2_best_mic)} · corr(actual, -log2 best MIC) = ${fmt(corr.corr_actual_vs_neglog2_best_mic)}</p>` : '';
+    panel.innerHTML=`<h2>${chart.target}</h2><p>R² ${fmt(r2Map[chart.target])} · ${chart.feature_set} + ${chart.model}</p>${corrText}<div id="${id}" style="height:420px"></div>`;
     wrap.appendChild(panel);
+    const basePoints = chart.points.filter(p => !p.mic_highlight);
+    const micPoints = chart.points.filter(p => p.mic_highlight);
     const xs=chart.points.map(p=>p.actual);
     const ys=chart.points.map(p=>p.predicted);
     const min=Math.min(...xs,...ys);
     const max=Math.max(...xs,...ys);
     Plotly.newPlot(id,[
-      {x:xs,y:ys,text:chart.points.map(p=>p.Sequence),mode:'markers',type:'scatter',marker:{size:6,color:'#6ee7ff',opacity:0.65},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
+      {x:basePoints.map(p=>p.actual),y:basePoints.map(p=>p.predicted),text:basePoints.map(p=>p.Sequence),mode:'markers',type:'scatter',name:'All other holdout peptides',marker:{size:6,color:'#6ee7ff',opacity:0.45},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
+      {x:micPoints.map(p=>p.actual),y:micPoints.map(p=>p.predicted),text:micPoints.map(p=>`${p.Sequence}<br>best MIC any=${fmt(p.best_mic_any)} µM`),mode:'markers',type:'scatter',name:chart.highlightLabel || 'MIC-backed peptides',marker:{size:9,color:'#ff5c5c',opacity:0.95,line:{color:'#ffffff',width:1}},hovertemplate:'%{text}<br>actual=%{x:.4f}<br>pred=%{y:.4f}<extra></extra>'},
       {x:[min,max],y:[min,max],mode:'lines',type:'scatter',line:{color:'#ff7b7b',dash:'dash',width:2},hoverinfo:'skip'}
     ],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#e8ecf8'},
-      xaxis:{title:'Actual',gridcolor:'#243055'}, yaxis:{title:'Predicted',gridcolor:'#243055'}, margin:{t:20,l:55,r:10,b:55}
+      xaxis:{title:'Actual',gridcolor:'#243055'}, yaxis:{title:'Predicted',gridcolor:'#243055'}, margin:{t:20,l:55,r:10,b:55}, legend:{orientation:'h',y:-0.2}
     },{displayModeBar:false,responsive:true});
   });
 });
