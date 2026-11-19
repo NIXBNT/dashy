@@ -4405,6 +4405,7 @@
   },
   "dashboardMeta": {
     "sections": [
+      {"id": "anchor-clusters", "label": "Anchor clusters", "page": "anchor-clusters.html"},
       {
         "id": "home",
         "label": "Overview",
