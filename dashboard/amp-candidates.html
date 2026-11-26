@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AMP Candidates · Peptide Research Dashboard</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#121933; --text:#e8ecf8; --muted:#a6b0ce; --line:#283556; --accent:#6ee7ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui,sans-serif; }
+    main { max-width:1640px; margin:auto; padding:clamp(16px,3vw,40px); }
+    a { color:var(--accent); }
+    h1 { font-size:clamp(2rem,5vw,3.4rem); line-height:1.1; margin:24px 0 10px; }
+    p { color:var(--muted); margin:8px 0; }
+    .panel { margin-top:22px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px; }
+    .controls, .pager { display:flex; flex-wrap:wrap; align-items:end; gap:12px; }
+    label { display:grid; gap:4px; }
+    input, select, button { font:inherit; color:inherit; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:7px 10px; }
+    input[type="search"] { width:min(100%,310px); }
+    button { cursor:pointer; }
+    button:disabled { opacity:.45; cursor:default; }
+    :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    details { margin:14px 0; color:var(--muted); }
+    summary { cursor:pointer; color:var(--text); }
+    .table-wrap { overflow:auto; max-height:68vh; border:1px solid var(--line); border-radius:8px; }
+    table { width:100%; border-collapse:separate; border-spacing:0; font-variant-numeric:tabular-nums; }
+    th,td { padding:8px 10px; text-align:left; white-space:nowrap; border-bottom:1px solid var(--line); }
+    th { position:sticky; top:0; background:#1a2445; z-index:1; }
+    th button { padding:0; background:none; border:0; text-align:left; }
+    th[aria-sort] button { color:var(--accent); }
+    tbody tr:nth-child(even) { background:#151e3b; }
+    tbody tr:hover { background:#202d50; }
+    .mean { color:var(--accent); font-weight:650; }
+    small { display:block; color:var(--muted); font-size:.78rem; }
+    .pager { align-items:center; margin-top:14px; }
+    #status { margin:0 auto 0 0; }
+  </style>
+</head>
+<body>
+<main>
+  <nav aria-label="Breadcrumb"><a href="./index.html">Peptide Research Dashboard</a></nav>
+  <h1>AMP Candidates</h1>
+  <p>Explore peptide predictions from the six completed server runs.</p>
+  <section class="panel" aria-label="Candidate rankings">
+    <div class="controls">
+      <label>Find a peptide <input id="query" type="search" placeholder="Peptide ID or sequence fragment"></label>
+      <label>ClassAMP activity
+        <select id="activity">
+          <option value="">All activities</option>
+          <option>Antibacterial</option><option>Antifungal</option><option>Antiviral</option>
+        </select>
+      </label>
+      <label>DBAASP class
+        <select id="dbaasp">
+          <option value="">All classes</option>
+          <option>AMP</option><option>Non-AMP</option>
+        </select>
+      </label>
+    </div>
+    <details>
+      <summary>How the averages are calculated</summary>
+      <p><strong>AMP mean</strong> gives equal weight to AMP Scanner v2, AMPidentifier, CAMPR3, and CAMPR4. Each CAMP server contributes the mean of its reported probabilities.</p>
+      <p><strong>All numeric mean</strong> gives equal weight to those four server values and ClassAMP’s confidence in its predicted activity class. Use the AMP mean for general AMP ranking.</p>
+      <p>DBAASP and CAMPR3 ANN provide class labels only. Displayed scores are rounded to four decimals. Sorting uses full precision.</p>
+    </details>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable predictions table">
+      <table aria-label="Peptide candidate predictions"><thead></thead><tbody></tbody></table>
+    </div>
+    <div class="pager">
+      <p id="status" role="status">Loading predictions…</p>
+      <button type="button" id="previous" disabled>Previous</button>
+      <button type="button" id="next" disabled>Next</button>
+    </div>
+  </section>
+</main>
+<script type="module" src="./amp-candidates.js"></script>
+</body>
+</html>

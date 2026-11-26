@@ -79,13 +79,14 @@
     const fmt = (n, d=3) => n == null || Number.isNaN(n) ? '—' : Number(n).toFixed(d);
     fetch('./data.json').then(r => r.json()).then(data => {
       const meta = data.dashboardMeta || {};
+      const sections = [...(meta.sections || []), { id:'amp-candidates', page:'amp-candidates.html', label:'AMP candidates' }];
       document.getElementById('updatePolicy').textContent = meta.updatePolicy || '';
-      document.getElementById('topnav').innerHTML = (meta.sections || []).map(s => {
+      document.getElementById('topnav').innerHTML = sections.map(s => {
         const page = s.page || 'index.html';
         const href = page === 'index.html' && s.id === 'leaders' ? 'index.html#leaders' : page;
         return `<a href="${href}">${s.label}</a>`;
       }).join('');
-      document.getElementById('pageLinks').innerHTML = (meta.sections || []).map(s => {
+      document.getElementById('pageLinks').innerHTML = sections.map(s => {
         const page = s.page || 'index.html';
         const href = page === 'index.html' && s.id === 'leaders' ? 'index.html#leaders' : page;
         return `<a href="${href}">${s.label}</a>`;
